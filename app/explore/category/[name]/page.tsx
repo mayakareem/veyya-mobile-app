@@ -123,11 +123,16 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ name:
               description: service.description,
             };
 
+            const serviceSlug = service.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+
             return (
               <Card key={idx} className="p-4">
                 <div className="flex items-start justify-between gap-3 mb-2">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold mb-1">{service.name}</h3>
+                  <div
+                    className="flex-1 min-w-0 cursor-pointer"
+                    onClick={() => router.push(`/service/${serviceSlug}`)}
+                  >
+                    <h3 className="font-semibold mb-1 hover:text-primary transition-colors">{service.name}</h3>
                     <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
                       {service.description}
                     </p>
@@ -141,6 +146,7 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ name:
                       </div>
                     </div>
                   </div>
+                </div>
 
                   {/* Add/Remove Buttons */}
                   {quantity === 0 ? (
