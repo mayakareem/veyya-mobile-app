@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Veyya Mobile App
 
-## Getting Started
+On-demand home services marketplace - Mobile app for users and service providers.
 
-First, run the development server:
+## 🚀 Deployment
+
+**Production**: https://veyya.vercel.app
+**Repository**: https://github.com/mayakareem/veyya-mobile-app
+
+## 📱 Features
+
+- **Service Categories**: 8 categories with 100+ services
+  - Beauty, Nails, Hair, Makeup
+  - Healthcare (23 detailed services)
+  - Pet Care (16 services with dog/cat filtering)
+  - Wellness, Fitness, Home Care
+
+- **Service Details**: Comprehensive tabbed interface
+  - Healthcare: Overview, Procedure, Benefits, Preparation
+  - Pet Care: Overview, Steps, Products, Benefits with dynamic pricing
+
+- **Dynamic Pricing**:
+  - Dog grooming: Small/Medium/Large (1x/1.5x/2x)
+  - Cat grooming: Short/Long hair (1x/1.6x)
+
+- **Shopping Cart**:
+  - Add/remove items with quantity controls
+  - Price breakdown with service fees
+  - Toast notifications
+
+- **Mobile-First Design**: Optimized for touch, responsive layouts
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 16.0.8 (React 19.2.1)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Notifications**: Sonner
+- **Package Manager**: pnpm
+
+## 🏃 Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Run development server
 pnpm dev
-# or
-bun dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Access at: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+├── (auth)/           # Authentication pages
+├── explore/          # Browse categories
+│   └── category/     # Category details with services
+├── service/          # Service detail pages
+├── cart/             # Shopping cart
+├── home/             # User dashboard
+├── bookings/         # User bookings
+└── profile/          # User profile
 
-## Learn More
+lib/
+├── constants/        # Service data, categories
+└── cart-context.tsx  # Cart state management
 
-To learn more about Next.js, take a look at the following resources:
+components/
+├── layout/           # AppShell, ScreenContainer
+└── ui/               # shadcn/ui components
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔗 Related Projects
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Web Prototype**: https://veyya-app.vercel.app ([veyya-app repo](https://github.com/mayakareem/veyya-app))
+- **Mobile App**: https://veyya.vercel.app (this repo)
 
-## Deploy on Vercel
+## 📝 Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- This is the mobile-optimized version designed for both users and service providers
+- The web prototype (veyya-app) is maintained separately for desktop experience
+- Both projects share similar service data but have different UX optimizations
