@@ -127,7 +127,7 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ name:
 
             return (
               <Card key={idx} className="p-4">
-                <div className="flex items-start justify-between gap-3 mb-2">
+                <div className="flex items-start justify-between gap-3">
                   <div
                     className="flex-1 min-w-0 cursor-pointer"
                     onClick={() => router.push(`/service/${serviceSlug}`)}
@@ -146,7 +146,6 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ name:
                       </div>
                     </div>
                   </div>
-                </div>
 
                   {/* Add/Remove Buttons */}
                   {quantity === 0 ? (

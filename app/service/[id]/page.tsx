@@ -181,9 +181,9 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
                       <p className="text-sm text-muted-foreground">{healthcareDetail.fullDescription}</p>
 
                       <div>
-                        <h4 className="font-semibold text-sm mb-2">What's Included:</h4>
+                        <h4 className="font-semibold text-sm mb-2">What's Done:</h4>
                         <ul className="space-y-1">
-                          {healthcareDetail.whatIsIncluded.map((item, index) => (
+                          {healthcareDetail.whatIsDone.map((item, index) => (
                             <li key={index} className="flex items-start gap-2 text-sm">
                               <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                               <span className="text-muted-foreground">{item}</span>
