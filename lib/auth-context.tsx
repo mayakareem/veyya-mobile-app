@@ -21,12 +21,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Check for stored auth on mount
-    const storedUser = localStorage.getItem("veyya_user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    // Check for stored auth on mount (client-side only)
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("veyya_user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      setIsInitialized(true);
     }
   }, []);
 
@@ -42,7 +46,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     setUser(mockUser);
-    localStorage.setItem("veyya_user", JSON.stringify(mockUser));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("veyya_user", JSON.stringify(mockUser));
+    }
   };
 
   const register = async (name: string, email: string, password: string) => {
@@ -57,12 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     setUser(mockUser);
-    localStorage.setItem("veyya_user", JSON.stringify(mockUser));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("veyya_user", JSON.stringify(mockUser));
+    }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("veyya_user");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("veyya_user");
+    }
   };
 
   return (
@@ -82,8 +92,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
+  // During SSR or if provider is not available, return safe defaults
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    // Only throw error in development on client-side
+    if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+      console.warn("useAuth is being used outside of AuthProvider");
+    }
+
+    // Return safe default values
+    return {
+      user: null,
+      isAuthenticated: false,
+      login: async () => {},
+      register: async () => {},
+      logout: () => {},
+    };
   }
+
   return context;
 }

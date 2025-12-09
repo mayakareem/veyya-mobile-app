@@ -31,17 +31,29 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const storedCart = localStorage.getItem("veyya_cart");
-    if (storedCart) {
-      setCart(JSON.parse(storedCart));
+    // Load cart from localStorage on mount (client-side only)
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem("veyya_cart");
+      if (storedCart) {
+        try {
+          setCart(JSON.parse(storedCart));
+        } catch (error) {
+          console.error("Failed to parse cart from localStorage:", error);
+        }
+      }
+      setIsInitialized(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("veyya_cart", JSON.stringify(cart));
-  }, [cart]);
+    // Save cart to localStorage whenever it changes (client-side only)
+    if (typeof window !== "undefined" && isInitialized) {
+      localStorage.setItem("veyya_cart", JSON.stringify(cart));
+    }
+  }, [cart, isInitialized]);
 
   const addToCart = (item: Omit<CartItem, "quantity">) => {
     setCart((prev) => {
@@ -125,8 +137,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
+
+  // During SSR or if provider is not available, return safe defaults
   if (context === undefined) {
-    throw new Error("useCart must be used within a CartProvider");
+    // Only throw error in development on client-side
+    if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+      console.warn("useCart is being used outside of CartProvider");
+    }
+
+    // Return safe default values
+    return {
+      cart: [],
+      items: [],
+      addToCart: () => {},
+      removeFromCart: () => {},
+      getItemQuantity: () => 0,
+      clearCart: () => {},
+      getTotalItems: () => 0,
+      getTotalPrice: () => 0,
+      addItem: () => {},
+      removeItem: () => {},
+      updateQuantity: () => {},
+    };
   }
+
   return context;
 }
