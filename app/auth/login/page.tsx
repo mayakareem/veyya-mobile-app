@@ -2,25 +2,26 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, type UserRole } from "@/lib/auth-context";
 import Logo from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, User, Briefcase } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState<UserRole>("user");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await login(email, password);
-      router.push("/home");
+      await login(email, password, role);
+      router.push("/hub");
     } catch (error) {
       console.error(error);
     } finally {
@@ -50,6 +51,41 @@ export default function LoginPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Role Selection */}
+          <div>
+            <label className="text-sm font-medium mb-2 block">I am a</label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setRole("user")}
+                className={`flex items-center gap-2 justify-center p-4 rounded-xl border-2 transition-all ${
+                  role === "user"
+                    ? "border-primary bg-primary/5"
+                    : "border-border bg-white"
+                }`}
+              >
+                <User className={`w-5 h-5 ${role === "user" ? "text-primary" : "text-muted-foreground"}`} />
+                <span className={`font-medium text-sm ${role === "user" ? "text-primary" : "text-foreground"}`}>
+                  Customer
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole("provider")}
+                className={`flex items-center gap-2 justify-center p-4 rounded-xl border-2 transition-all ${
+                  role === "provider"
+                    ? "border-primary bg-primary/5"
+                    : "border-border bg-white"
+                }`}
+              >
+                <Briefcase className={`w-5 h-5 ${role === "provider" ? "text-primary" : "text-muted-foreground"}`} />
+                <span className={`font-medium text-sm ${role === "provider" ? "text-primary" : "text-foreground"}`}>
+                  Provider
+                </span>
+              </button>
+            </div>
+          </div>
+
           <div>
             <label className="text-sm font-medium mb-2 block">Email</label>
             <Input

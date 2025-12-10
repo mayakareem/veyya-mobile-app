@@ -2,18 +2,23 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
+export type UserRole = "user" | "provider";
+
 interface User {
   id: string;
   name: string;
   email: string;
   avatar?: string;
+  role: UserRole;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  role: UserRole | null;
+  login: (email: string, password: string, role?: UserRole) => Promise<void>;
+  register: (name: string, email: string, password: string, role?: UserRole) => Promise<void>;
+  switchRole: (role: UserRole) => void;
   logout: () => void;
 }
 
@@ -34,15 +39,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, role: UserRole = "user") => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const mockUser = {
       id: "1",
-      name: "Demo User",
+      name: role === "provider" ? "Demo Provider" : "Demo User",
       email,
       avatar: undefined,
+      role,
     };
 
     setUser(mockUser);
@@ -51,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name: string, email: string, password: string, role: UserRole = "user") => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -60,11 +66,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       name,
       email,
       avatar: undefined,
+      role,
     };
 
     setUser(mockUser);
     if (typeof window !== "undefined") {
       localStorage.setItem("veyya_user", JSON.stringify(mockUser));
+    }
+  };
+
+  const switchRole = (newRole: UserRole) => {
+    if (user) {
+      const updatedUser = { ...user, role: newRole };
+      setUser(updatedUser);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("veyya_user", JSON.stringify(updatedUser));
+      }
     }
   };
 
@@ -80,8 +97,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         isAuthenticated: !!user,
+        role: user?.role || null,
         login,
         register,
+        switchRole,
         logout,
       }}
     >
@@ -104,8 +123,10 @@ export function useAuth() {
     return {
       user: null,
       isAuthenticated: false,
+      role: null,
       login: async () => {},
       register: async () => {},
+      switchRole: () => {},
       logout: () => {},
     };
   }

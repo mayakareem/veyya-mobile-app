@@ -17,7 +17,7 @@ export default function MobileAppHome() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/home");
+      router.push("/hub");
     }
   }, [isAuthenticated, router]);
 
