@@ -130,8 +130,9 @@ export default function UserHubPage() {
   const greeting = getGreeting();
 
   useEffect(() => {
-    // Redirect providers to their hub
-    if (isAuthenticated && role === "provider") {
+    if (!isAuthenticated) {
+      router.push("/");
+    } else if (role === "provider") {
       router.push("/hub/provider");
     }
   }, [isAuthenticated, role, router]);
@@ -143,6 +144,10 @@ export default function UserHubPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!isAuthenticated || role !== "user") {
+    return null;
+  }
 
   const handleLogout = () => {
     logout();
@@ -198,25 +203,14 @@ export default function UserHubPage() {
                 </Badge>
               )}
             </Button>
-            {isAuthenticated ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full flex-shrink-0"
-                onClick={handleLogout}
-              >
-                <LogOut className="w-5 h-5" />
-              </Button>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="rounded-full flex-shrink-0"
-                onClick={() => router.push("/auth/login")}
-              >
-                Sign In
-              </Button>
-            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full flex-shrink-0"
+              onClick={handleLogout}
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
           </div>
         </div>
       </header>

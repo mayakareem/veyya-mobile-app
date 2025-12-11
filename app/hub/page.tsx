@@ -9,14 +9,12 @@ export default function HubPage() {
   const { isAuthenticated, role } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/");
-    } else if (role === "provider") {
+    if (role === "provider") {
       router.push("/hub/provider");
     } else {
-      router.push("/hub/user");
+      router.push("/");
     }
-  }, [isAuthenticated, role, router]);
+  }, [role, router]);
 
   // Show loading state while redirecting
   return (
