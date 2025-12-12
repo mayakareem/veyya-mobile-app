@@ -279,9 +279,9 @@ export default function BookingsPage() {
               <CalendarDays className="w-6 h-6 text-primary" />
               <span className="text-xs font-medium text-primary">Bookings</span>
             </Link>
-            <Link href="/cart" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
-              <ShoppingBag className="w-6 h-6 text-muted-foreground" />
-              <span className="text-xs font-medium text-muted-foreground">Cart</span>
+            <Link href="/offers" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <Tag className="w-6 h-6 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground">Offers</span>
             </Link>
             <Link href="/gift" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
               <GiftIcon className="w-6 h-6 text-muted-foreground" />
