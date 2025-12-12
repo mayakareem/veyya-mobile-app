@@ -4,8 +4,6 @@ import { CartProvider } from "@/lib/cart-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
-import ConditionalHeader from "@/components/layout/ConditionalHeader";
-import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import "@/styles/theme.css";
 
@@ -30,9 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>
             <CartProvider>
-              <ConditionalHeader />
               <div className="flex-1">{children}</div>
-              <Footer />
               <Toaster />
               <Analytics />
             </CartProvider>
