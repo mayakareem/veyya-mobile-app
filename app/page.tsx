@@ -48,70 +48,68 @@ function getGreeting(): string {
   return "Good evening";
 }
 
-// Event types for booking
-const EVENTS = [
+// Bundled Offers
+const BUNDLED_OFFERS = [
   {
-    id: "wedding",
-    name: "Wedding",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop",
-    description: "Complete wedding day services",
-    subcategories: [
-      { id: "bridal-makeup", name: "Bridal Makeup", price: 8500, duration: 180 },
-      { id: "bridal-hair", name: "Bridal Hair Styling", price: 4500, duration: 120 },
-      { id: "bridesmaid-makeup", name: "Bridesmaid Makeup", price: 2500, duration: 60 },
-      { id: "mehendi", name: "Bridal Mehendi", price: 3500, duration: 240 },
-    ],
-    addons: [
-      { id: "trial-session", name: "Pre-Wedding Trial", price: 3000 },
-      { id: "touch-up-kit", name: "Touch-up Kit", price: 800 },
-    ]
+    id: "glow-package",
+    name: "Complete Glow Package",
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200&h=200&fit=crop",
+    description: "Facial, massage, and manicure for ultimate relaxation",
+    originalPrice: 4500,
+    price: 3150,
+    discount: 30,
+    services: ["Facial Treatment", "Swedish Massage", "Gel Manicure"]
   },
   {
-    id: "corporate",
-    name: "Corporate Event",
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop",
-    description: "Professional corporate services",
-    subcategories: [
-      { id: "wellness-session", name: "Office Wellness Session", price: 5000, duration: 60 },
-      { id: "chair-massage", name: "Chair Massage (per person)", price: 800, duration: 15 },
-      { id: "team-yoga", name: "Team Yoga Class", price: 3500, duration: 60 },
-    ],
-    addons: [
-      { id: "aromatherapy", name: "Aromatherapy Diffusers", price: 1200 },
-      { id: "wellness-kits", name: "Wellness Gift Kits", price: 500 },
-    ]
+    id: "bridal-beauty",
+    name: "Bridal Beauty Bundle",
+    image: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=200&h=200&fit=crop",
+    description: "Complete bridal look with trial session included",
+    originalPrice: 16000,
+    price: 12000,
+    discount: 25,
+    services: ["Bridal Makeup", "Hair Styling", "Trial Session", "Touch-up Kit"]
   },
   {
-    id: "party",
-    name: "Party",
-    image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop",
-    description: "Make your party memorable",
-    subcategories: [
-      { id: "party-makeup", name: "Party Makeup", price: 2000, duration: 45 },
-      { id: "hairstyling", name: "Party Hairstyling", price: 1500, duration: 45 },
-      { id: "group-mani", name: "Group Manicure", price: 800, duration: 45 },
-      { id: "group-pedi", name: "Group Pedicure", price: 1000, duration: 60 },
-    ],
-    addons: [
-      { id: "glitter-kit", name: "Glitter & Accessories", price: 400 },
-      { id: "photo-props", name: "Photo Booth Props", price: 600 },
-    ]
+    id: "wellness-week",
+    name: "Weekly Wellness",
+    image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=200&h=200&fit=crop",
+    description: "4 sessions of massage and yoga for stress relief",
+    originalPrice: 5600,
+    price: 3920,
+    discount: 30,
+    services: ["Deep Tissue Massage", "Hot Stone Massage", "Yoga Session x2"]
   },
   {
-    id: "photoshoot",
-    name: "Photoshoot",
-    image: "https://images.unsplash.com/photo-1554080353-a576cf803bda?w=400&h=300&fit=crop",
-    description: "Look camera-ready",
-    subcategories: [
-      { id: "photo-makeup", name: "Photography Makeup", price: 3500, duration: 90 },
-      { id: "photo-hair", name: "Editorial Hairstyling", price: 2500, duration: 60 },
-      { id: "look-changes", name: "Multiple Look Changes", price: 2000, duration: 60 },
-    ],
-    addons: [
-      { id: "false-lashes", name: "Premium False Lashes", price: 300 },
-      { id: "touch-up-service", name: "On-Set Touch-ups", price: 1500 },
-    ]
+    id: "party-ready",
+    name: "Party Ready Package",
+    image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=200&h=200&fit=crop",
+    description: "Makeup, hair, and nails for your special night",
+    originalPrice: 3500,
+    price: 2625,
+    discount: 25,
+    services: ["Party Makeup", "Hairstyling", "Gel Manicure"]
   },
+  {
+    id: "pet-pamper",
+    name: "Pet Pampering Day",
+    image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=200&h=200&fit=crop",
+    description: "Full grooming and spa treatment for your furry friend",
+    originalPrice: 2000,
+    price: 1400,
+    discount: 30,
+    services: ["Pet Grooming", "Pet Bath", "Nail Trimming", "Ear Cleaning"]
+  },
+  {
+    id: "home-spa",
+    name: "Home Spa Experience",
+    image: "https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=200&h=200&fit=crop",
+    description: "Transform your home into a luxurious spa retreat",
+    originalPrice: 6000,
+    price: 4500,
+    discount: 25,
+    services: ["Aromatherapy Massage", "Facial Treatment", "Pedicure", "Manicure"]
+  }
 ];
 
 // Top/Trending Services
@@ -135,9 +133,6 @@ export default function HomePage() {
   const { isAuthenticated, user, role, logout } = useAuth();
   const { getTotalItems, addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
-  const [eventQuantities, setEventQuantities] = useState<Record<string, number>>({});
-  const [eventAddons, setEventAddons] = useState<Record<string, boolean>>({});
   const [showGreeting, setShowGreeting] = useState(true);
   const [placeholderText, setPlaceholderText] = useState("");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -210,20 +205,6 @@ export default function HomePage() {
   const handleLogout = () => {
     logout();
     router.push("/");
-  };
-
-  const updateQuantity = (itemId: string, delta: number) => {
-    setEventQuantities(prev => ({
-      ...prev,
-      [itemId]: Math.max(0, (prev[itemId] || 0) + delta)
-    }));
-  };
-
-  const toggleAddon = (addonId: string) => {
-    setEventAddons(prev => ({
-      ...prev,
-      [addonId]: !prev[addonId]
-    }));
   };
 
   return (
@@ -356,149 +337,47 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Events Booking Section */}
-      <section className="pb-6">
+      {/* Bundled Offers Marquee */}
+      <section className="pb-6 overflow-hidden">
         <div className="px-4 mb-3">
-          <h2 className="text-base font-semibold">Book for Events</h2>
-          <p className="text-xs text-muted-foreground">Perfect for special occasions</p>
+          <h2 className="text-base font-semibold">Special Bundles</h2>
+          <p className="text-xs text-muted-foreground">Save more with our curated packages</p>
         </div>
 
-        <div className="px-4 space-y-3">
-          {EVENTS.map((event) => {
-            const isExpanded = expandedEvent === event.id;
-
-            return (
-              <Card key={event.id} className="overflow-hidden border-border/50">
-                {/* Event Header */}
-                <button
-                  onClick={() => setExpandedEvent(isExpanded ? null : event.id)}
-                  className="w-full p-4 flex items-center gap-3 text-left hover:bg-muted/20 transition-colors"
-                >
+        {/* Scrolling Marquee */}
+        <div className="relative">
+          <div className="flex gap-4 animate-marquee">
+            {[...BUNDLED_OFFERS, ...BUNDLED_OFFERS].map((offer, index) => (
+              <Card
+                key={`${offer.id}-${index}`}
+                className="flex-shrink-0 w-72 p-4 border-border/50 hover:shadow-lg transition-all cursor-pointer"
+                onClick={() => router.push(`/offers/${offer.id}`)}
+              >
+                <div className="flex gap-3">
                   <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                     <Image
-                      src={event.image}
-                      alt={event.name}
+                      src={offer.image}
+                      alt={offer.name}
                       fill
                       className="object-cover"
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-sm mb-1">{event.name}</h3>
-                    <p className="text-xs text-muted-foreground">{event.description}</p>
-                    <p className="text-xs text-primary mt-1">{event.subcategories.length} services available</p>
-                  </div>
-                  <ChevronRight className={`w-5 h-5 text-muted-foreground transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-                </button>
-
-                {/* Expanded Details */}
-                {isExpanded && (
-                  <div className="border-t border-border/50 p-4 space-y-4 bg-muted/5">
-                    {/* Subcategories */}
-                    <div>
-                      <p className="text-xs font-semibold mb-2 text-muted-foreground">Services</p>
-                      <div className="space-y-2">
-                        {event.subcategories.map((sub) => {
-                          const qty = eventQuantities[`${event.id}-${sub.id}`] || 0;
-                          return (
-                            <div key={sub.id} className="bg-white rounded-lg p-3 border border-border/50">
-                              <div className="flex items-start justify-between mb-2">
-                                <div className="flex-1">
-                                  <p className="text-sm font-medium">{sub.name}</p>
-                                  <p className="text-xs text-muted-foreground">{sub.duration} min</p>
-                                </div>
-                                <p className="text-sm font-bold text-primary">฿{sub.price}</p>
-                              </div>
-
-                              {/* Quantity Controls */}
-                              <div className="flex items-center gap-3 mt-2">
-                                <div className="flex items-center gap-2 bg-muted/50 rounded-full">
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-7 w-7 rounded-full"
-                                    onClick={() => updateQuantity(`${event.id}-${sub.id}`, -1)}
-                                  >
-                                    <Minus className="w-3 h-3" />
-                                  </Button>
-                                  <span className="text-sm font-medium w-6 text-center">{qty}</span>
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-7 w-7 rounded-full"
-                                    onClick={() => updateQuantity(`${event.id}-${sub.id}`, 1)}
-                                  >
-                                    <Plus className="w-3 h-3" />
-                                  </Button>
-                                </div>
-
-                                {qty > 0 && (
-                                  <div className="flex-1 grid grid-cols-2 gap-2">
-                                    <Input
-                                      type="date"
-                                      className="h-7 text-xs"
-                                      placeholder="Date"
-                                    />
-                                    <div className="relative">
-                                      <MapPin className="absolute left-2 top-1.5 w-3 h-3 text-muted-foreground" />
-                                      <Input
-                                        type="text"
-                                        className="h-7 text-xs pl-6"
-                                        placeholder="Location"
-                                      />
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between mb-1">
+                      <h3 className="font-semibold text-sm">{offer.name}</h3>
+                      <Badge className="text-xs bg-green-500">{offer.discount}% OFF</Badge>
                     </div>
-
-                    {/* Add-ons */}
-                    {event.addons.length > 0 && (
-                      <div>
-                        <p className="text-xs font-semibold mb-2 text-muted-foreground">Add-ons</p>
-                        <div className="space-y-2">
-                          {event.addons.map((addon) => {
-                            const isSelected = eventAddons[`${event.id}-${addon.id}`];
-                            return (
-                              <button
-                                key={addon.id}
-                                onClick={() => toggleAddon(`${event.id}-${addon.id}`)}
-                                className={`w-full bg-white rounded-lg p-3 border transition-all text-left ${
-                                  isSelected ? 'border-primary bg-primary/5' : 'border-border/50'
-                                }`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <div className="flex-1">
-                                    <p className="text-sm font-medium">{addon.name}</p>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <p className="text-sm font-bold text-primary">฿{addon.price}</p>
-                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                      isSelected ? 'border-primary bg-primary' : 'border-muted-foreground'
-                                    }`}>
-                                      {isSelected && <Plus className="w-3 h-3 text-white" />}
-                                    </div>
-                                  </div>
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Add to Cart Button */}
-                    <Button className="w-full rounded-full" size="lg">
-                      Add to Cart
-                    </Button>
+                    <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground line-through">฿{offer.originalPrice}</span>
+                      <span className="text-sm font-bold text-primary">฿{offer.price}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">{offer.services.length} services included</p>
                   </div>
-                )}
+                </div>
               </Card>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </section>
 
