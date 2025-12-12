@@ -473,14 +473,14 @@ export default function HomePage() {
           <div className="px-4 pt-1 pb-3 border-t border-border/30">
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
-                <Link
+                <Button
                   key={sub}
-                  href={`/category/${encodeURIComponent(selectedCategory)}?sub=${encodeURIComponent(sub)}`}
+                  variant="outline"
+                  size="sm"
+                  className="flex-shrink-0 rounded-full text-xs hover:bg-primary/10 hover:border-primary/50"
                 >
-                  <Button variant="outline" size="sm" className="flex-shrink-0 rounded-full text-xs hover:bg-primary/10 hover:border-primary/50">
-                    {sub}
-                  </Button>
-                </Link>
+                  {sub}
+                </Button>
               )) || (
                 <p className="text-sm text-muted-foreground">No services available</p>
               )}
