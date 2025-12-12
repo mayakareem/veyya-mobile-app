@@ -492,6 +492,82 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Book Special Events Section */}
+      <section className="pb-6">
+        <div className="px-4 mb-3">
+          <h2 className="text-base font-semibold">Book Special Events</h2>
+          <p className="text-xs text-muted-foreground">Perfect for your memorable occasions</p>
+        </div>
+
+        <div className="px-4">
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/events/weddings">
+              <Card className="p-4 hover:shadow-lg transition-all border-border/50 cursor-pointer group">
+                <div className="relative w-full h-24 rounded-lg overflow-hidden mb-3">
+                  <Image
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop"
+                    alt="Weddings"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-white font-semibold text-sm">Weddings</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Bridal makeup, hair & more</p>
+              </Card>
+            </Link>
+
+            <Link href="/events/corporate">
+              <Card className="p-4 hover:shadow-lg transition-all border-border/50 cursor-pointer group">
+                <div className="relative w-full h-24 rounded-lg overflow-hidden mb-3">
+                  <Image
+                    src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop"
+                    alt="Corporate Events"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-white font-semibold text-sm">Corporate</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Wellness & team activities</p>
+              </Card>
+            </Link>
+
+            <Link href="/events/parties">
+              <Card className="p-4 hover:shadow-lg transition-all border-border/50 cursor-pointer group">
+                <div className="relative w-full h-24 rounded-lg overflow-hidden mb-3">
+                  <Image
+                    src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop"
+                    alt="Parties"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-white font-semibold text-sm">Parties</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Makeup, hair & nails</p>
+              </Card>
+            </Link>
+
+            <Link href="/events/photoshoots">
+              <Card className="p-4 hover:shadow-lg transition-all border-border/50 cursor-pointer group">
+                <div className="relative w-full h-24 rounded-lg overflow-hidden mb-3">
+                  <Image
+                    src="https://images.unsplash.com/photo-1554080353-a576cf803bda?w=400&h=300&fit=crop"
+                    alt="Photoshoots"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 left-2 text-white font-semibold text-sm">Photoshoots</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Camera-ready looks</p>
+              </Card>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Sticky Footer Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white safe-bottom">
         <div className="max-w-md mx-auto px-2 py-2">
