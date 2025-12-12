@@ -140,7 +140,7 @@ export default function OffersPage() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const offersToShow = activeTab === "all" ? ACTIVE_OFFERS : TRENDING_OFFERS;
+  const offersToShow = activeTab === "trending" ? TRENDING_OFFERS : ACTIVE_OFFERS;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">

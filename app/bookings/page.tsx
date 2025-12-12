@@ -139,7 +139,7 @@ export default function BookingsPage() {
     }
   };
 
-  const bookingsToShow = activeTab === "past" ? PAST_BOOKINGS : UPCOMING_BOOKINGS;
+  const bookingsToShow = activeTab === "upcoming" ? UPCOMING_BOOKINGS : PAST_BOOKINGS;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
