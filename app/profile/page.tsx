@@ -79,9 +79,9 @@ const USER_DATA = {
 };
 
 // App version check
-const APP_VERSION = "2.1.0";
-const LATEST_VERSION = "2.2.0"; // This would come from API in real app
-const HAS_UPDATE = APP_VERSION !== LATEST_VERSION;
+const APP_VERSION: string = "2.1.0";
+const LATEST_VERSION: string = "2.2.0"; // This would come from API in real app
+const HAS_UPDATE: boolean = APP_VERSION !== LATEST_VERSION;
 
 export default function ProfilePage() {
   const router = useRouter();
