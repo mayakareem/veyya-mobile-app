@@ -506,15 +506,15 @@ export default function HomePage() {
               return (
                 <Card
                   key={offer.id}
-                  className="flex-shrink-0 w-80 border-border/50 overflow-hidden"
+                  className="flex-shrink-0 w-72 border-border/50 overflow-hidden"
                 >
                   {/* Bundle Header */}
                   <div
-                    className="p-4 cursor-pointer hover:bg-muted/20 transition-colors"
+                    className="p-3 cursor-pointer hover:bg-muted/20 transition-colors"
                     onClick={() => setExpandedBundle(isExpanded ? null : offer.id)}
                   >
-                    <div className="flex gap-3 mb-3">
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="flex gap-2 mb-2">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                         <Image
                           src={offer.image}
                           alt={offer.name}
@@ -523,35 +523,35 @@ export default function HomePage() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between mb-1">
-                          <h3 className="font-semibold text-sm">{offer.name}</h3>
-                          <Badge className="text-xs bg-green-500">{offer.discount}% OFF</Badge>
+                        <div className="flex items-start justify-between mb-0.5">
+                          <h3 className="font-semibold text-xs leading-tight">{offer.name}</h3>
+                          <Badge className="text-[10px] px-1.5 py-0 h-4 bg-green-500">{offer.discount}% OFF</Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground line-through">฿{offer.originalPrice}</span>
-                          <span className="text-sm font-bold text-primary">฿{offer.price}</span>
+                        <p className="text-[11px] text-muted-foreground mb-1.5 line-clamp-2 leading-tight">{offer.description}</p>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] text-muted-foreground line-through">฿{offer.originalPrice}</span>
+                          <span className="text-xs font-bold text-primary">฿{offer.price}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Quick Info */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                        <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                        <div className="flex items-center gap-0.5">
                           <Clock className="w-3 h-3" />
                           <span>{offer.duration} min</span>
                         </div>
                         <span>•</span>
                         <span>{offer.services.length} services</span>
                       </div>
-                      <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                      <ChevronRight className={`w-3.5 h-3.5 text-muted-foreground transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                     </div>
 
                     {/* Quick Add to Cart (when collapsed) */}
                     {!isExpanded && (
                       <Button
-                        className="w-full mt-3 rounded-full"
+                        className="w-full rounded-full h-7 text-xs"
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -572,47 +572,46 @@ export default function HomePage() {
 
                   {/* Expanded Details */}
                   {isExpanded && (
-                    <div className="border-t border-border/50 p-4 bg-muted/5 space-y-4">
+                    <div className="border-t border-border/50 p-3 bg-muted/5 space-y-2.5">
                       {/* Process Description */}
                       <div>
-                        <p className="text-xs font-semibold mb-2 text-muted-foreground">What to Expect</p>
-                        <p className="text-xs text-foreground leading-relaxed">{offer.process}</p>
+                        <p className="text-[10px] font-semibold mb-1 text-muted-foreground uppercase">What to Expect</p>
+                        <p className="text-[11px] text-foreground leading-snug">{offer.process}</p>
                       </div>
 
                       {/* Services Breakdown */}
                       <div>
-                        <p className="text-xs font-semibold mb-2 text-muted-foreground">Services Included</p>
-                        <div className="space-y-2">
+                        <p className="text-[10px] font-semibold mb-1.5 text-muted-foreground uppercase">Services Included</p>
+                        <div className="space-y-1.5">
                           {offer.services.map((service, idx) => (
-                            <div key={idx} className="bg-white rounded-lg p-3 border border-border/50">
-                              <div className="flex items-start justify-between mb-1">
-                                <p className="text-sm font-medium flex-1">{service.name}</p>
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                                  <Clock className="w-3 h-3" />
-                                  <span>{service.duration} min</span>
+                            <div key={idx} className="bg-white rounded-md p-2 border border-border/50">
+                              <div className="flex items-start justify-between mb-0.5">
+                                <p className="text-xs font-medium flex-1 leading-tight">{service.name}</p>
+                                <div className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
+                                  <Clock className="w-2.5 h-2.5" />
+                                  <span>{service.duration}m</span>
                                 </div>
                               </div>
-                              <p className="text-xs text-muted-foreground">{service.description}</p>
+                              <p className="text-[10px] text-muted-foreground leading-tight">{service.description}</p>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       {/* Total Duration */}
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <div className="bg-blue-50 border border-blue-200 rounded-md p-2">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-xs font-semibold text-blue-900">Total Duration</p>
-                            <p className="text-xs text-blue-700">Approximately {Math.floor(offer.duration / 60)}h {offer.duration % 60}min</p>
+                            <p className="text-[10px] font-semibold text-blue-900">Total Duration</p>
+                            <p className="text-[10px] text-blue-700">{Math.floor(offer.duration / 60)}h {offer.duration % 60}min</p>
                           </div>
-                          <Clock className="w-5 h-5 text-blue-600" />
+                          <Clock className="w-4 h-4 text-blue-600" />
                         </div>
                       </div>
 
                       {/* Add to Cart Button */}
                       <Button
-                        className="w-full rounded-full"
-                        size="lg"
+                        className="w-full rounded-full h-8 text-xs"
                         onClick={(e) => {
                           e.stopPropagation();
                           addToCart({
