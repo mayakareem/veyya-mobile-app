@@ -26,7 +26,9 @@ import {
   User,
   Menu,
   Star,
-  Clock
+  Clock,
+  X,
+  Check
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -60,7 +62,13 @@ const BUNDLED_OFFERS = [
     originalPrice: 4500,
     price: 3150,
     discount: 30,
-    services: ["Facial Treatment", "Swedish Massage", "Gel Manicure"]
+    duration: 180,
+    process: "Our Complete Glow Package starts with a deep cleansing facial to refresh your skin, followed by a Swedish massage to release tension, and finishes with a professional gel manicure for polished perfection.",
+    services: [
+      { name: "Deep Cleansing Facial", duration: 60, description: "Customized facial treatment with extraction and mask" },
+      { name: "Swedish Massage", duration: 60, description: "Full-body relaxation massage with essential oils" },
+      { name: "Gel Manicure", duration: 60, description: "Professional nail shaping, cuticle care, and gel polish" }
+    ]
   },
   {
     id: "bridal-beauty",
@@ -70,7 +78,14 @@ const BUNDLED_OFFERS = [
     originalPrice: 16000,
     price: 12000,
     discount: 25,
-    services: ["Bridal Makeup", "Hair Styling", "Trial Session", "Touch-up Kit"]
+    duration: 360,
+    process: "Perfect your wedding day look with a pre-wedding trial session, then enjoy full bridal makeup and hair styling on your special day, with a touch-up kit to stay flawless all day long.",
+    services: [
+      { name: "Pre-Wedding Trial", duration: 120, description: "Test your makeup and hair look before the big day" },
+      { name: "Bridal Makeup", duration: 120, description: "HD airbrush makeup with false lashes and contouring" },
+      { name: "Bridal Hair Styling", duration: 90, description: "Elegant updo or flowing waves with accessories" },
+      { name: "Touch-up Kit", duration: 30, description: "Personalized kit for day-long perfection" }
+    ]
   },
   {
     id: "wellness-week",
@@ -80,7 +95,13 @@ const BUNDLED_OFFERS = [
     originalPrice: 5600,
     price: 3920,
     discount: 30,
-    services: ["Deep Tissue Massage", "Hot Stone Massage", "Yoga Session x2"]
+    duration: 240,
+    process: "Recharge with our weekly wellness plan: alternate between deep tissue massage sessions and hot stone massage, complemented by two restorative yoga classes for complete mind-body balance.",
+    services: [
+      { name: "Deep Tissue Massage", duration: 60, description: "Targeted pressure to release muscle knots and tension" },
+      { name: "Hot Stone Massage", duration: 60, description: "Heated stones for deep relaxation and circulation" },
+      { name: "Yoga Session (2x)", duration: 60, description: "Guided yoga flows for flexibility and stress relief" }
+    ]
   },
   {
     id: "party-ready",
@@ -90,7 +111,13 @@ const BUNDLED_OFFERS = [
     originalPrice: 3500,
     price: 2625,
     discount: 25,
-    services: ["Party Makeup", "Hairstyling", "Gel Manicure"]
+    duration: 135,
+    process: "Get party-ready with glamorous makeup tailored to your outfit, a stunning hairstyle that lasts all night, and a fresh gel manicure to complete your look.",
+    services: [
+      { name: "Party Makeup", duration: 45, description: "Bold eyes, flawless base, and long-lasting finish" },
+      { name: "Party Hairstyling", duration: 45, description: "Curls, braids, or sleek styles with setting spray" },
+      { name: "Gel Manicure", duration: 45, description: "Chip-resistant polish in your choice of color" }
+    ]
   },
   {
     id: "pet-pamper",
@@ -100,7 +127,14 @@ const BUNDLED_OFFERS = [
     originalPrice: 2000,
     price: 1400,
     discount: 30,
-    services: ["Pet Grooming", "Pet Bath", "Nail Trimming", "Ear Cleaning"]
+    duration: 120,
+    process: "Treat your pet to a full spa day with professional grooming, a gentle bath with premium shampoo, nail trimming for comfort, and ear cleaning for complete hygiene.",
+    services: [
+      { name: "Professional Grooming", duration: 45, description: "Breed-specific cut and styling" },
+      { name: "Premium Bath", duration: 30, description: "Organic shampoo and conditioner treatment" },
+      { name: "Nail Trimming", duration: 15, description: "Safe trimming and filing for comfort" },
+      { name: "Ear Cleaning", duration: 30, description: "Gentle cleaning to prevent infections" }
+    ]
   },
   {
     id: "home-spa",
@@ -110,7 +144,14 @@ const BUNDLED_OFFERS = [
     originalPrice: 6000,
     price: 4500,
     discount: 25,
-    services: ["Aromatherapy Massage", "Facial Treatment", "Pedicure", "Manicure"]
+    duration: 180,
+    process: "Enjoy a complete spa experience in the comfort of your home with aromatherapy massage, rejuvenating facial, pedicure with exfoliation, and finishing with a classic manicure.",
+    services: [
+      { name: "Aromatherapy Massage", duration: 60, description: "Essential oils massage for deep relaxation" },
+      { name: "Rejuvenating Facial", duration: 45, description: "Anti-aging treatment with serums and masks" },
+      { name: "Spa Pedicure", duration: 45, description: "Exfoliation, massage, and polish" },
+      { name: "Classic Manicure", duration: 30, description: "Nail care and classic polish" }
+    ]
   }
 ];
 
@@ -122,8 +163,17 @@ const PREVIOUS_VENDORS = [
     service: "Deep Tissue Massage",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
     rating: 4.9,
+    reviewCount: 127,
     lastServed: "2025-11-28",
-    pricePerSession: 1200
+    pricePerSession: 1200,
+    duration: 60,
+    bio: "Certified massage therapist with 8 years of experience specializing in deep tissue and sports massage.",
+    nextAvailable: [
+      { date: "2025-12-13", time: "10:00 AM" },
+      { date: "2025-12-13", time: "2:00 PM" },
+      { date: "2025-12-14", time: "9:00 AM" },
+      { date: "2025-12-14", time: "4:00 PM" }
+    ]
   },
   {
     id: 2,
@@ -131,8 +181,16 @@ const PREVIOUS_VENDORS = [
     service: "Bridal Makeup",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
     rating: 5.0,
+    reviewCount: 89,
     lastServed: "2025-11-15",
-    pricePerSession: 3500
+    pricePerSession: 3500,
+    duration: 120,
+    bio: "Award-winning makeup artist specializing in bridal and editorial looks. Featured in Vogue Thailand.",
+    nextAvailable: [
+      { date: "2025-12-15", time: "11:00 AM" },
+      { date: "2025-12-16", time: "10:00 AM" },
+      { date: "2025-12-17", time: "1:00 PM" }
+    ]
   },
   {
     id: 3,
@@ -140,8 +198,17 @@ const PREVIOUS_VENDORS = [
     service: "Gel Manicure",
     image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop",
     rating: 4.8,
+    reviewCount: 156,
     lastServed: "2025-12-05",
-    pricePerSession: 500
+    pricePerSession: 500,
+    duration: 45,
+    bio: "Nail artist with expertise in gel techniques and intricate nail art designs.",
+    nextAvailable: [
+      { date: "2025-12-13", time: "11:00 AM" },
+      { date: "2025-12-13", time: "3:00 PM" },
+      { date: "2025-12-14", time: "10:00 AM" },
+      { date: "2025-12-14", time: "2:00 PM" }
+    ]
   },
   {
     id: 4,
@@ -149,8 +216,16 @@ const PREVIOUS_VENDORS = [
     service: "Hair Styling",
     image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
     rating: 4.9,
+    reviewCount: 143,
     lastServed: "2025-11-22",
-    pricePerSession: 900
+    pricePerSession: 900,
+    duration: 60,
+    bio: "Creative hair stylist specializing in modern cuts, coloring, and event styling.",
+    nextAvailable: [
+      { date: "2025-12-13", time: "1:00 PM" },
+      { date: "2025-12-14", time: "11:00 AM" },
+      { date: "2025-12-15", time: "3:00 PM" }
+    ]
   },
   {
     id: 5,
@@ -158,8 +233,16 @@ const PREVIOUS_VENDORS = [
     service: "Facial Treatment",
     image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop",
     rating: 5.0,
+    reviewCount: 201,
     lastServed: "2025-12-01",
-    pricePerSession: 1500
+    pricePerSession: 1500,
+    duration: 75,
+    bio: "Licensed esthetician with advanced training in anti-aging treatments and skin analysis.",
+    nextAvailable: [
+      { date: "2025-12-14", time: "10:00 AM" },
+      { date: "2025-12-14", time: "3:00 PM" },
+      { date: "2025-12-15", time: "9:00 AM" }
+    ]
   },
   {
     id: 6,
@@ -167,8 +250,16 @@ const PREVIOUS_VENDORS = [
     service: "Hot Stone Massage",
     image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop",
     rating: 4.7,
+    reviewCount: 98,
     lastServed: "2025-11-18",
-    pricePerSession: 1400
+    pricePerSession: 1400,
+    duration: 90,
+    bio: "Holistic therapist combining hot stone therapy with aromatherapy for ultimate relaxation.",
+    nextAvailable: [
+      { date: "2025-12-13", time: "2:00 PM" },
+      { date: "2025-12-14", time: "1:00 PM" },
+      { date: "2025-12-15", time: "10:00 AM" }
+    ]
   }
 ];
 
@@ -193,9 +284,12 @@ export default function HomePage() {
   const { isAuthenticated, user, role, logout } = useAuth();
   const { getTotalItems, addToCart } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [expandedBundle, setExpandedBundle] = useState<string | null>(null);
   const [showGreeting, setShowGreeting] = useState(true);
   const [placeholderText, setPlaceholderText] = useState("");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [selectedVendor, setSelectedVendor] = useState<typeof PREVIOUS_VENDORS[0] | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<{date: string; time: string} | null>(null);
 
   const demoName = getDemoName(user?.name);
   const greeting = getGreeting();
@@ -407,36 +501,138 @@ export default function HomePage() {
         {/* Horizontal Scroll */}
         <div className="overflow-x-auto scrollbar-hide px-4">
           <div className="flex gap-4 pb-2">
-            {BUNDLED_OFFERS.map((offer, index) => (
-              <Card
-                key={`${offer.id}-${index}`}
-                className="flex-shrink-0 w-72 p-4 border-border/50 hover:shadow-lg transition-all cursor-pointer"
-                onClick={() => router.push(`/offers/${offer.id}`)}
-              >
-                <div className="flex gap-3">
-                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                    <Image
-                      src={offer.image}
-                      alt={offer.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-1">
-                      <h3 className="font-semibold text-sm">{offer.name}</h3>
-                      <Badge className="text-xs bg-green-500">{offer.discount}% OFF</Badge>
+            {BUNDLED_OFFERS.map((offer) => {
+              const isExpanded = expandedBundle === offer.id;
+              return (
+                <Card
+                  key={offer.id}
+                  className="flex-shrink-0 w-80 border-border/50 overflow-hidden"
+                >
+                  {/* Bundle Header */}
+                  <div
+                    className="p-4 cursor-pointer hover:bg-muted/20 transition-colors"
+                    onClick={() => setExpandedBundle(isExpanded ? null : offer.id)}
+                  >
+                    <div className="flex gap-3 mb-3">
+                      <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                        <Image
+                          src={offer.image}
+                          alt={offer.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-1">
+                          <h3 className="font-semibold text-sm">{offer.name}</h3>
+                          <Badge className="text-xs bg-green-500">{offer.discount}% OFF</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground line-through">฿{offer.originalPrice}</span>
+                          <span className="text-sm font-bold text-primary">฿{offer.price}</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground line-through">฿{offer.originalPrice}</span>
-                      <span className="text-sm font-bold text-primary">฿{offer.price}</span>
+
+                    {/* Quick Info */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          <span>{offer.duration} min</span>
+                        </div>
+                        <span>•</span>
+                        <span>{offer.services.length} services</span>
+                      </div>
+                      <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{offer.services.length} services included</p>
+
+                    {/* Quick Add to Cart (when collapsed) */}
+                    {!isExpanded && (
+                      <Button
+                        className="w-full mt-3 rounded-full"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart({
+                            name: offer.name,
+                            price: offer.price,
+                            duration: offer.duration,
+                            category: "Bundles",
+                            subcategory: "Special Package",
+                            description: offer.description,
+                          });
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    )}
                   </div>
-                </div>
-              </Card>
-            ))}
+
+                  {/* Expanded Details */}
+                  {isExpanded && (
+                    <div className="border-t border-border/50 p-4 bg-muted/5 space-y-4">
+                      {/* Process Description */}
+                      <div>
+                        <p className="text-xs font-semibold mb-2 text-muted-foreground">What to Expect</p>
+                        <p className="text-xs text-foreground leading-relaxed">{offer.process}</p>
+                      </div>
+
+                      {/* Services Breakdown */}
+                      <div>
+                        <p className="text-xs font-semibold mb-2 text-muted-foreground">Services Included</p>
+                        <div className="space-y-2">
+                          {offer.services.map((service, idx) => (
+                            <div key={idx} className="bg-white rounded-lg p-3 border border-border/50">
+                              <div className="flex items-start justify-between mb-1">
+                                <p className="text-sm font-medium flex-1">{service.name}</p>
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Clock className="w-3 h-3" />
+                                  <span>{service.duration} min</span>
+                                </div>
+                              </div>
+                              <p className="text-xs text-muted-foreground">{service.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Total Duration */}
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs font-semibold text-blue-900">Total Duration</p>
+                            <p className="text-xs text-blue-700">Approximately {Math.floor(offer.duration / 60)}h {offer.duration % 60}min</p>
+                          </div>
+                          <Clock className="w-5 h-5 text-blue-600" />
+                        </div>
+                      </div>
+
+                      {/* Add to Cart Button */}
+                      <Button
+                        className="w-full rounded-full"
+                        size="lg"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart({
+                            name: offer.name,
+                            price: offer.price,
+                            duration: offer.duration,
+                            category: "Bundles",
+                            subcategory: "Special Package",
+                            description: offer.description,
+                          });
+                          setExpandedBundle(null);
+                        }}
+                      >
+                        Add to Cart - ฿{offer.price}
+                      </Button>
+                    </div>
+                  )}
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
