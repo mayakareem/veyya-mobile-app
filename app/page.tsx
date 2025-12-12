@@ -24,7 +24,9 @@ import {
   Tag,
   Gift,
   User,
-  Menu
+  Menu,
+  Star,
+  Clock
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -109,6 +111,64 @@ const BUNDLED_OFFERS = [
     price: 4500,
     discount: 25,
     services: ["Aromatherapy Massage", "Facial Treatment", "Pedicure", "Manicure"]
+  }
+];
+
+// Previously Booked Vendors
+const PREVIOUS_VENDORS = [
+  {
+    id: 1,
+    name: "Sarah Chen",
+    service: "Deep Tissue Massage",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
+    rating: 4.9,
+    lastServed: "2025-11-28",
+    pricePerSession: 1200
+  },
+  {
+    id: 2,
+    name: "Maya Rodriguez",
+    service: "Bridal Makeup",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
+    rating: 5.0,
+    lastServed: "2025-11-15",
+    pricePerSession: 3500
+  },
+  {
+    id: 3,
+    name: "Priya Sharma",
+    service: "Gel Manicure",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop",
+    rating: 4.8,
+    lastServed: "2025-12-05",
+    pricePerSession: 500
+  },
+  {
+    id: 4,
+    name: "Emma Watson",
+    service: "Hair Styling",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
+    rating: 4.9,
+    lastServed: "2025-11-22",
+    pricePerSession: 900
+  },
+  {
+    id: 5,
+    name: "Lisa Anderson",
+    service: "Facial Treatment",
+    image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&h=200&fit=crop",
+    rating: 5.0,
+    lastServed: "2025-12-01",
+    pricePerSession: 1500
+  },
+  {
+    id: 6,
+    name: "Nina Patel",
+    service: "Hot Stone Massage",
+    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop",
+    rating: 4.7,
+    lastServed: "2025-11-18",
+    pricePerSession: 1400
   }
 ];
 
@@ -374,6 +434,57 @@ export default function HomePage() {
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">{offer.services.length} services included</p>
                   </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Book Again Section */}
+      <section className="pb-6">
+        <div className="px-4 mb-3">
+          <h2 className="text-base font-semibold">Book Again</h2>
+          <p className="text-xs text-muted-foreground">Your favorite providers are waiting</p>
+        </div>
+
+        <div className="overflow-x-auto scrollbar-hide px-4">
+          <div className="flex gap-4 pb-2" style={{ width: 'max-content' }}>
+            {PREVIOUS_VENDORS.map((vendor) => (
+              <Card
+                key={vendor.id}
+                className="flex-shrink-0 w-64 p-4 border-border/50 hover:shadow-lg transition-all cursor-pointer"
+                onClick={() => router.push(`/providers/${vendor.id}`)}
+              >
+                <div className="flex gap-3 mb-3">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-primary/20">
+                    <Image
+                      src={vendor.image}
+                      alt={vendor.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm mb-1 truncate">{vendor.name}</h3>
+                    <p className="text-xs text-muted-foreground mb-1 truncate">{vendor.service}</p>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-semibold">{vendor.rating}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
+                  <Clock className="w-3 h-3" />
+                  <span>Last served: {new Date(vendor.lastServed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-primary">฿{vendor.pricePerSession}</span>
+                  <Button size="sm" className="rounded-full">
+                    Book Now
+                  </Button>
                 </div>
               </Card>
             ))}
