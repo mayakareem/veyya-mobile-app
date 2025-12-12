@@ -8,7 +8,7 @@ import ScreenContainer from "@/components/layout/ScreenContainer";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, User, CreditCard, Bell, HelpCircle, LogOut } from "lucide-react";
+import { ChevronRight, User, CreditCard, Bell, HelpCircle, LogOut, MessageCircle, Phone } from "lucide-react";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -68,6 +68,43 @@ export default function ProfilePage() {
               </Card>
             );
           })}
+        </div>
+
+        {/* Contact Us Section */}
+        <div className="mb-6">
+          <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">Contact Us</h3>
+          <div className="space-y-2">
+            <Card
+              className="p-4 cursor-pointer hover:shadow-soft transition-shadow flex items-center justify-between"
+              onClick={() => window.open('https://line.me/ti/p/~veyya', '_blank')}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="font-medium block">Contact via LINE</span>
+                  <span className="text-xs text-muted-foreground">Chat with us on LINE</span>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </Card>
+            <Card
+              className="p-4 cursor-pointer hover:shadow-soft transition-shadow flex items-center justify-between"
+              onClick={() => window.open('https://wa.me/66123456789', '_blank')}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="font-medium block">Contact via WhatsApp</span>
+                  <span className="text-xs text-muted-foreground">Message us on WhatsApp</span>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </Card>
+          </div>
         </div>
 
         {/* Logout Button */}

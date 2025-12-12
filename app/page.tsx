@@ -23,7 +23,8 @@ import {
   CalendarDays,
   Tag,
   Gift,
-  User
+  User,
+  Menu
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -181,55 +182,20 @@ export default function HomePage() {
       {/* Sticky Search Header */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg border-b border-border/50">
         <div className="max-w-md mx-auto px-4 py-3">
-          {/* Greeting - fades on scroll */}
-          {showGreeting && (
-            <div className="mb-3 transition-all duration-300">
-              <p className="text-lg font-semibold">
-                {greeting}, <span className="text-primary">{demoName}</span>
-              </p>
-            </div>
-          )}
-
-          {/* Search Bar */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full flex-shrink-0"
+            >
+              <Menu className="w-5 h-5" />
+            </Button>
             <Link href="/search" className="flex-1">
               <div className="flex items-center gap-3 bg-muted/50 rounded-full px-4 py-2.5 border border-border/50">
                 <Search className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Search services...</span>
               </div>
             </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative rounded-full flex-shrink-0"
-              onClick={() => router.push("/cart")}
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {getTotalItems() > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                  {getTotalItems()}
-                </Badge>
-              )}
-            </Button>
-            {isAuthenticated ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full flex-shrink-0"
-                onClick={handleLogout}
-              >
-                <LogOut className="w-5 h-5" />
-              </Button>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="rounded-full flex-shrink-0"
-                onClick={() => router.push("/auth/login")}
-              >
-                Sign In
-              </Button>
-            )}
           </div>
         </div>
       </header>
