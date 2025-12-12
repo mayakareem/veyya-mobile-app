@@ -17,6 +17,7 @@ import {
   Tag,
   Gift as GiftIcon,
   User as UserIcon,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -138,7 +139,7 @@ export default function BookingsPage() {
     }
   };
 
-  const bookingsToShow = activeTab === "upcoming" ? UPCOMING_BOOKINGS : PAST_BOOKINGS;
+  const bookingsToShow = activeTab === "past" ? PAST_BOOKINGS : UPCOMING_BOOKINGS;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
@@ -278,9 +279,9 @@ export default function BookingsPage() {
               <CalendarDays className="w-6 h-6 text-primary" />
               <span className="text-xs font-medium text-primary">Bookings</span>
             </Link>
-            <Link href="/offers" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
-              <Tag className="w-6 h-6 text-muted-foreground" />
-              <span className="text-xs font-medium text-muted-foreground">Offers</span>
+            <Link href="/cart" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <ShoppingBag className="w-6 h-6 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground">Cart</span>
             </Link>
             <Link href="/gift" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
               <GiftIcon className="w-6 h-6 text-muted-foreground" />
