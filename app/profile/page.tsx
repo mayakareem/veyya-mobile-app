@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/lib/cart-context";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -85,6 +86,7 @@ const HAS_UPDATE: boolean = APP_VERSION !== LATEST_VERSION;
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { getTotalItems } = useCart();
   const [showAddresses, setShowAddresses] = useState(false);
   const [showPayments, setShowPayments] = useState(false);
 
@@ -97,9 +99,24 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
       {/* Header */}
       <header className="sticky top-0 z-20 bg-white border-b">
-        <div className="max-w-md mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">My Account</h1>
-          <p className="text-sm text-muted-foreground">Manage your profile and preferences</p>
+        <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">My Account</h1>
+            <p className="text-sm text-muted-foreground">Manage your profile and preferences</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-lg flex-shrink-0 relative"
+            onClick={() => router.push("/cart")}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {getTotalItems() > 0 && (
+              <Badge className="absolute -top-1 -right-1 h-4 w-4 rounded-full p-0 flex items-center justify-center text-[10px]">
+                {getTotalItems()}
+              </Badge>
+            )}
+          </Button>
         </div>
       </header>
 
