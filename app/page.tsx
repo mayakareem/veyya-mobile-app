@@ -1081,7 +1081,7 @@ export default function HomePage() {
         </>
       )}
 
-      {/* Sticky Footer Navigation */}
+      {/* Sticky Footer Navigation - Updated 2025-12-13 */}
       <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white safe-bottom">
         <div className="max-w-md mx-auto px-2 py-2">
           <div className="flex items-center justify-around">
