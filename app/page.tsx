@@ -228,19 +228,27 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
-      {/* Sticky Search Header */}
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-20 bg-white border-b border-border/20">
         <div className="max-w-md mx-auto px-4 py-3">
+          {/* Location */}
+          <div className="flex items-center gap-1 mb-2">
+            <MapPin className="w-3 h-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">Sukhumvit, Bangkok</span>
+          </div>
+
+          {/* Search Bar Row */}
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full flex-shrink-0"
+              className="rounded-lg flex-shrink-0"
             >
               <Menu className="w-5 h-5" />
             </Button>
+
             <Link href="/search" className="flex-1">
-              <div className="flex items-center gap-3 bg-muted/50 rounded-full px-4 py-2.5 border border-border/50">
+              <div className="flex items-center gap-3 bg-muted/50 rounded-lg px-4 py-2.5 border border-border/50">
                 <Search className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
                   {placeholderText || "Search services..."}
@@ -248,6 +256,20 @@ export default function HomePage() {
                 </span>
               </div>
             </Link>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-lg flex-shrink-0 relative"
+              onClick={() => router.push("/cart")}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {getTotalItems() > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-4 w-4 rounded-full p-0 flex items-center justify-center text-[10px]">
+                  {getTotalItems()}
+                </Badge>
+              )}
+            </Button>
           </div>
         </div>
       </header>
@@ -255,10 +277,7 @@ export default function HomePage() {
       {/* Top Services Section */}
       <section className="pt-4 pb-4">
         <div className="px-4 mb-3">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <h2 className="text-base font-semibold">Top Services</h2>
-          </div>
+          <h2 className="text-base font-semibold">Top Services</h2>
         </div>
         <div className="overflow-x-auto scrollbar-hide px-4">
           <div className="flex gap-4 pb-2" style={{ width: 'max-content' }}>
