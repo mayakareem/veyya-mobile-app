@@ -229,7 +229,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-white border-b border-border/20">
+      <header className="sticky top-0 z-20 bg-white">
         <div className="max-w-md mx-auto px-4 py-3">
           {/* Location */}
           <div className="flex items-center gap-1 mb-2">
@@ -321,8 +321,8 @@ export default function HomePage() {
                   onClick={() => setSelectedCategory(isSelected ? null : category.name)}
                   className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
                     isSelected
-                      ? "bg-primary text-white border-primary"
-                      : "bg-white border-border/50"
+                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/50"
+                      : "bg-white border-border/50 hover:shadow-md"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -503,7 +503,7 @@ export default function HomePage() {
       </section>
 
       {/* Sticky Footer Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-border/50 safe-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white safe-bottom">
         <div className="max-w-md mx-auto px-2 py-2">
           <div className="flex items-center justify-around">
             <Link href="/" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
