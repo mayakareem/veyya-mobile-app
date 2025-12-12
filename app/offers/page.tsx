@@ -18,6 +18,7 @@ import {
   Gift as GiftIcon,
   Copy,
   Check,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";

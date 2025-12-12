@@ -16,6 +16,7 @@ import {
   CalendarDays,
   Tag,
   User as UserIcon,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 

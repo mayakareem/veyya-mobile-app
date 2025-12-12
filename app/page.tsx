@@ -1097,13 +1097,8 @@ export default function HomePage() {
               <Tag className="w-6 h-6 text-muted-foreground" />
               <span className="text-xs text-muted-foreground">Offers</span>
             </Link>
-            <Link href="/cart" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px] relative">
+            <Link href="/gift" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
               <Gift className="w-6 h-6 text-muted-foreground" />
-              {getTotalItems() > 0 && (
-                <Badge className="absolute top-1 right-2 h-4 w-4 rounded-full p-0 flex items-center justify-center text-[10px]">
-                  {getTotalItems()}
-                </Badge>
-              )}
               <span className="text-xs text-muted-foreground">Gift</span>
             </Link>
             <Link href={isAuthenticated ? "/profile" : "/auth/login"} className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
