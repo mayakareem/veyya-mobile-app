@@ -412,8 +412,6 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
         name: service.name,
         price: service.price,
         duration: service.duration,
-        category: service.category,
-        subcategory: service.subcategory,
         description: service.description,
       });
     }
