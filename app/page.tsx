@@ -696,12 +696,12 @@ export default function HomePage() {
                     onClick={(e) => {
                       e.stopPropagation();
                       addToCart({
-                        id: `vendor-${vendor.id}`,
                         name: vendor.service,
-                        provider: vendor.name,
                         price: vendor.pricePerSession,
-                        image: vendor.image,
-                        quantity: 1
+                        duration: vendor.duration,
+                        category: "Services",
+                        subcategory: vendor.service,
+                        description: `${vendor.service} with ${vendor.name}`,
                       });
                     }}
                   >
@@ -896,14 +896,12 @@ export default function HomePage() {
                   onClick={() => {
                     if (selectedTimeSlot) {
                       addToCart({
-                        id: `vendor-${selectedVendor.id}-${selectedTimeSlot.date}-${selectedTimeSlot.time}`,
                         name: selectedVendor.service,
-                        provider: selectedVendor.name,
                         price: selectedVendor.pricePerSession,
-                        image: selectedVendor.image,
-                        quantity: 1,
-                        date: selectedTimeSlot.date,
-                        time: selectedTimeSlot.time
+                        duration: selectedVendor.duration,
+                        category: "Services",
+                        subcategory: selectedVendor.service,
+                        description: `${selectedVendor.service} with ${selectedVendor.name} on ${selectedTimeSlot.date} at ${selectedTimeSlot.time}`,
                       });
                       setSelectedVendor(null);
                       setSelectedTimeSlot(null);
