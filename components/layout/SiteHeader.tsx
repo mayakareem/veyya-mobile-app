@@ -49,7 +49,7 @@ export default function SiteHeader() {
 
           {/* Right Actions - Responsive Icons with Popovers */}
           <div className="flex items-center gap-0.5">
-            {/* Referrals Popover */}
+            {/* Gift & Referrals Popover */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-12 w-12">
@@ -58,13 +58,13 @@ export default function SiteHeader() {
               </PopoverTrigger>
               <PopoverContent className="w-64 bg-white" align="end">
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-sm">Refer & Earn</h3>
+                  <h3 className="font-semibold text-sm">Gift & Referrals</h3>
                   <p className="text-xs text-muted-foreground">
                     Share Veyya with friends and earn rewards!
                   </p>
-                  <Link href="/referrals">
+                  <Link href="/gift">
                     <Button size="sm" className="w-full">
-                      View Referral Program
+                      View Gift & Referral Program
                     </Button>
                   </Link>
                 </div>
