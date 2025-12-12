@@ -444,8 +444,8 @@ export default function HomePage() {
           <h2 className="text-base font-semibold">Browse by Category</h2>
         </div>
 
-        {/* Category Pills */}
-        <div className="px-4">
+        {/* Category Pills - Always Visible with Selected State */}
+        <div className="px-4 sticky top-[72px] z-10 bg-white pb-3">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
             {SERVICE_CATEGORIES.map((category) => {
               const Icon = category.Icon;
@@ -468,24 +468,22 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Sticky Sub-categories */}
+        {/* Sub-categories - Shown below when category selected */}
         {selectedCategory && (
-          <div className="sticky top-[72px] z-10 bg-white/95 backdrop-blur-lg py-2 mt-3">
-            <div className="px-4">
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
-                  <Link
-                    key={sub}
-                    href={`/category/${encodeURIComponent(selectedCategory)}?sub=${encodeURIComponent(sub)}`}
-                  >
-                    <Button variant="outline" size="sm" className="flex-shrink-0 rounded-full text-xs">
-                      {sub}
-                    </Button>
-                  </Link>
-                )) || (
-                  <p className="text-sm text-muted-foreground">No services available</p>
-                )}
-              </div>
+          <div className="px-4 pt-1 pb-3 border-t border-border/30">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+              {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
+                <Link
+                  key={sub}
+                  href={`/category/${encodeURIComponent(selectedCategory)}?sub=${encodeURIComponent(sub)}`}
+                >
+                  <Button variant="outline" size="sm" className="flex-shrink-0 rounded-full text-xs hover:bg-primary/10 hover:border-primary/50">
+                    {sub}
+                  </Button>
+                </Link>
+              )) || (
+                <p className="text-sm text-muted-foreground">No services available</p>
+              )}
             </div>
           </div>
         )}
