@@ -18,7 +18,12 @@ import {
   Calendar as CalendarIcon,
   Plus,
   Minus,
-  ChevronRight
+  ChevronRight,
+  Home,
+  CalendarDays,
+  Tag,
+  Gift,
+  User
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -114,6 +119,14 @@ const TOP_SERVICES = [
   { id: 2, name: "Gel Manicure", price: 500, image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=200&h=200&fit=crop" },
   { id: 3, name: "Bridal Makeup", price: 3500, image: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=200&h=200&fit=crop" },
   { id: 4, name: "Pet Grooming", price: 800, image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=200&h=200&fit=crop" },
+  { id: 5, name: "Swedish Massage", price: 1000, image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=200&h=200&fit=crop" },
+  { id: 6, name: "Facial Treatment", price: 1500, image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200&h=200&fit=crop" },
+  { id: 7, name: "Hair Styling", price: 900, image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=200&h=200&fit=crop" },
+  { id: 8, name: "Pedicure", price: 600, image: "https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=200&h=200&fit=crop" },
+  { id: 9, name: "Hot Stone Massage", price: 1400, image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=200&h=200&fit=crop" },
+  { id: 10, name: "Aromatherapy", price: 1100, image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=200&h=200&fit=crop" },
+  { id: 11, name: "Hair Coloring", price: 2500, image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop" },
+  { id: 12, name: "Eyelash Extensions", price: 1800, image: "https://images.unsplash.com/photo-1583001308904-cd63e54f7f8f?w=200&h=200&fit=crop" },
 ];
 
 export default function HomePage() {
@@ -164,7 +177,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
       {/* Sticky Search Header */}
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg border-b border-border/50">
         <div className="max-w-md mx-auto px-4 py-3">
@@ -230,11 +243,11 @@ export default function HomePage() {
           </div>
         </div>
         <div className="overflow-x-auto scrollbar-hide px-4">
-          <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+          <div className="flex gap-4 pb-2" style={{ width: 'max-content' }}>
             {TOP_SERVICES.map((service) => (
               <Link key={service.id} href={`/service/${service.id}`}>
-                <Card className="flex-shrink-0 w-32 overflow-hidden border-border/50 hover:shadow-md transition-shadow">
-                  <div className="relative h-32 w-full">
+                <div className="flex flex-col items-center gap-2 w-20">
+                  <div className="relative h-20 w-20 rounded-full overflow-hidden border-2 border-border/50 hover:border-primary transition-all shadow-sm hover:shadow-md">
                     <Image
                       src={service.image}
                       alt={service.name}
@@ -242,11 +255,11 @@ export default function HomePage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-2">
-                    <p className="text-xs font-medium line-clamp-2 mb-1">{service.name}</p>
+                  <div className="text-center w-full">
+                    <p className="text-xs font-medium line-clamp-2 mb-0.5">{service.name}</p>
                     <p className="text-xs font-bold text-primary">฿{service.price}</p>
                   </div>
-                </Card>
+                </div>
               </Link>
             ))}
           </div>
@@ -451,6 +464,39 @@ export default function HomePage() {
           })}
         </div>
       </section>
+
+      {/* Sticky Footer Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-border/50 safe-bottom">
+        <div className="max-w-md mx-auto px-2 py-2">
+          <div className="flex items-center justify-around">
+            <Link href="/" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <Home className="w-6 h-6 text-primary" />
+              <span className="text-xs font-medium text-primary">Home</span>
+            </Link>
+            <Link href="/bookings" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <CalendarDays className="w-6 h-6 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Bookings</span>
+            </Link>
+            <Link href="/offers" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <Tag className="w-6 h-6 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Offers</span>
+            </Link>
+            <Link href="/cart" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px] relative">
+              <Gift className="w-6 h-6 text-muted-foreground" />
+              {getTotalItems() > 0 && (
+                <Badge className="absolute top-1 right-2 h-4 w-4 rounded-full p-0 flex items-center justify-center text-[10px]">
+                  {getTotalItems()}
+                </Badge>
+              )}
+              <span className="text-xs text-muted-foreground">Gift</span>
+            </Link>
+            <Link href={isAuthenticated ? "/profile" : "/auth/login"} className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+              <User className="w-6 h-6 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Profile</span>
+            </Link>
+          </div>
+        </div>
+      </nav>
     </div>
   );
 }
