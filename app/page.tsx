@@ -649,8 +649,7 @@ export default function HomePage() {
             {PREVIOUS_VENDORS.map((vendor) => (
               <Card
                 key={vendor.id}
-                className="flex-shrink-0 w-64 p-4 border-border/50 hover:shadow-lg transition-all cursor-pointer"
-                onClick={() => router.push(`/providers/${vendor.id}`)}
+                className="flex-shrink-0 w-64 p-4 border-border/50 hover:shadow-lg transition-all"
               >
                 <div className="flex gap-3 mb-3">
                   <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-primary/20">
@@ -667,19 +666,54 @@ export default function HomePage() {
                     <div className="flex items-center gap-1">
                       <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                       <span className="text-xs font-semibold">{vendor.rating}</span>
+                      <span className="text-xs text-muted-foreground">({vendor.reviewCount})</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
-                  <Clock className="w-3 h-3" />
-                  <span>Last served: {new Date(vendor.lastServed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                <div className="space-y-2 mb-3">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Clock className="w-3 h-3" />
+                    <span>Last served: {new Date(vendor.lastServed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <CalendarIcon className="w-3 h-3 text-green-600" />
+                    <span className="text-green-600 font-medium">
+                      Next: {new Date(vendor.nextAvailable[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at {vendor.nextAvailable[0].time}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-primary">฿{vendor.pricePerSession}</span>
-                  <Button size="sm" className="rounded-full">
-                    Book Now
+                <div className="flex items-center gap-2">
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground">{vendor.duration} min</p>
+                    <p className="text-sm font-bold text-primary">฿{vendor.pricePerSession}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart({
+                        id: `vendor-${vendor.id}`,
+                        name: vendor.service,
+                        provider: vendor.name,
+                        price: vendor.pricePerSession,
+                        image: vendor.image,
+                        quantity: 1
+                      });
+                    }}
+                  >
+                    <ShoppingBag className="w-3 h-3 mr-1" />
+                    Add
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="rounded-full"
+                    onClick={() => setSelectedVendor(vendor)}
+                  >
+                    Book
                   </Button>
                 </div>
               </Card>
@@ -763,6 +797,140 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Vendor Details Modal */}
+      {selectedVendor && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm" onClick={() => setSelectedVendor(null)}>
+          <div
+            className="bg-white rounded-t-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-white border-b border-border/50 px-6 py-4 flex items-center justify-between rounded-t-3xl">
+              <h2 className="text-lg font-semibold">Book {selectedVendor.name}</h2>
+              <button
+                onClick={() => setSelectedVendor(null)}
+                className="p-2 hover:bg-muted rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* Provider Info */}
+              <div className="flex gap-4">
+                <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-primary/20">
+                  <Image
+                    src={selectedVendor.image}
+                    alt={selectedVendor.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg mb-1">{selectedVendor.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-2">{selectedVendor.service}</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-semibold">{selectedVendor.rating}</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">({selectedVendor.reviewCount} reviews)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bio */}
+              <div>
+                <h4 className="font-semibold text-sm mb-2">About</h4>
+                <p className="text-sm text-muted-foreground">{selectedVendor.bio}</p>
+              </div>
+
+              {/* Service Details */}
+              <div className="bg-muted/30 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Service</span>
+                  <span className="text-sm font-medium">{selectedVendor.service}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Duration</span>
+                  <span className="text-sm font-medium">{selectedVendor.duration} minutes</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Price</span>
+                  <span className="text-lg font-bold text-primary">฿{selectedVendor.pricePerSession}</span>
+                </div>
+              </div>
+
+              {/* Time Slots */}
+              <div>
+                <h4 className="font-semibold text-sm mb-3">Select Time Slot</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {selectedVendor.nextAvailable.map((slot, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedTimeSlot(slot)}
+                      className={`p-3 rounded-lg border-2 transition-all text-left ${
+                        selectedTimeSlot?.date === slot.date && selectedTimeSlot?.time === slot.time
+                          ? 'border-primary bg-primary/5'
+                          : 'border-border/50 hover:border-primary/50'
+                      }`}
+                    >
+                      <p className="text-xs font-medium">
+                        {new Date(slot.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                      </p>
+                      <p className="text-sm font-semibold">{slot.time}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-2">
+                <Button
+                  className="flex-1 rounded-full"
+                  size="lg"
+                  variant="outline"
+                  disabled={!selectedTimeSlot}
+                  onClick={() => {
+                    if (selectedTimeSlot) {
+                      addToCart({
+                        id: `vendor-${selectedVendor.id}-${selectedTimeSlot.date}-${selectedTimeSlot.time}`,
+                        name: selectedVendor.service,
+                        provider: selectedVendor.name,
+                        price: selectedVendor.pricePerSession,
+                        image: selectedVendor.image,
+                        quantity: 1,
+                        date: selectedTimeSlot.date,
+                        time: selectedTimeSlot.time
+                      });
+                      setSelectedVendor(null);
+                      setSelectedTimeSlot(null);
+                    }
+                  }}
+                >
+                  <ShoppingBag className="w-4 h-4 mr-2" />
+                  Add to Cart
+                </Button>
+                <Button
+                  className="flex-1 rounded-full"
+                  size="lg"
+                  disabled={!selectedTimeSlot}
+                  onClick={() => {
+                    if (selectedTimeSlot) {
+                      router.push(`/booking/${selectedVendor.id}?date=${selectedTimeSlot.date}&time=${selectedTimeSlot.time}`);
+                    }
+                  }}
+                >
+                  <Check className="w-4 h-4 mr-2" />
+                  Book Now
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Sticky Footer Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white safe-bottom">
