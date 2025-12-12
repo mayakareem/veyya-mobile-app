@@ -139,9 +139,58 @@ export default function HomePage() {
   const [eventQuantities, setEventQuantities] = useState<Record<string, number>>({});
   const [eventAddons, setEventAddons] = useState<Record<string, boolean>>({});
   const [showGreeting, setShowGreeting] = useState(true);
+  const [placeholderText, setPlaceholderText] = useState("");
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   const demoName = getDemoName(user?.name);
   const greeting = getGreeting();
+
+  // Typing animation placeholders
+  const placeholderExamples = [
+    "deep tissue massage near me",
+    "bridal makeup for wedding",
+    "dog grooming at home",
+    "gel manicure this weekend",
+    "facial treatment downtown",
+    "hair coloring and highlights",
+  ];
+
+  // Typing animation effect
+  useEffect(() => {
+    const currentText = placeholderExamples[placeholderIndex];
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+
+    const type = () => {
+      if (!isDeleting && currentCharIndex <= currentText.length) {
+        setPlaceholderText(currentText.substring(0, currentCharIndex));
+        currentCharIndex++;
+        typingSpeed = 100;
+      } else if (isDeleting && currentCharIndex >= 0) {
+        setPlaceholderText(currentText.substring(0, currentCharIndex));
+        currentCharIndex--;
+        typingSpeed = 50;
+      } else if (!isDeleting && currentCharIndex > currentText.length) {
+        // Pause before deleting
+        setTimeout(() => {
+          isDeleting = true;
+          type();
+        }, 2000);
+        return;
+      } else if (isDeleting && currentCharIndex < 0) {
+        // Move to next placeholder
+        isDeleting = false;
+        setPlaceholderIndex((prev) => (prev + 1) % placeholderExamples.length);
+        return;
+      }
+
+      setTimeout(type, typingSpeed);
+    };
+
+    const timeout = setTimeout(type, 500);
+    return () => clearTimeout(timeout);
+  }, [placeholderIndex]);
 
   useEffect(() => {
     // Redirect providers to their hub
@@ -180,7 +229,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/20 to-white pb-24">
       {/* Sticky Search Header */}
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg border-b border-border/50">
+      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-lg">
         <div className="max-w-md mx-auto px-4 py-3">
           <div className="flex items-center gap-3">
             <Button
@@ -193,7 +242,10 @@ export default function HomePage() {
             <Link href="/search" className="flex-1">
               <div className="flex items-center gap-3 bg-muted/50 rounded-full px-4 py-2.5 border border-border/50">
                 <Search className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Search services...</span>
+                <span className="text-sm text-muted-foreground">
+                  {placeholderText || "Search services..."}
+                  <span className="animate-pulse">|</span>
+                </span>
               </div>
             </Link>
           </div>
