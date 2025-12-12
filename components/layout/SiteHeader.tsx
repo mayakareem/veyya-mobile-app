@@ -1,48 +1,21 @@
 // src/components/layout/SiteHeader.tsx
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ShoppingCart, MapPin, Gift, ChevronDown, Calendar, User, Menu, X, MessageCircle, Phone } from "lucide-react";
+import { ShoppingCart, Gift, User, Menu, X, MessageCircle } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-
-const BANGKOK_AREAS = [
-  "Sukhumvit",
-  "Silom",
-  "Sathorn",
-  "Thonglor",
-  "Ekkamai",
-  "Ari",
-  "Phrom Phong",
-  "Asoke",
-  "Rama 9",
-  "Ratchada",
-];
 
 export default function SiteHeader() {
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
-  const [selectedLocation, setSelectedLocation] = useState<string>("Sukhumvit");
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Auto-detect location on mount (simplified for demo)
-  useEffect(() => {
-    // In production, use geolocation API or IP-based detection
-    const defaultLocation = BANGKOK_AREAS[0];
-    setSelectedLocation(defaultLocation);
-  }, []);
 
   return (
     <>
@@ -65,63 +38,9 @@ export default function SiteHeader() {
 
           {/* Center Navigation - Text Only - Desktop Only */}
           <nav className="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-8">
-            {/* Location Dropdown - No Icon */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1 font-normal">
-                  <span className="text-sm">{selectedLocation}</span>
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-48 bg-white">
-                {BANGKOK_AREAS.map((area) => (
-                  <DropdownMenuItem
-                    key={area}
-                    onClick={() => setSelectedLocation(area)}
-                    className={selectedLocation === area ? "bg-muted" : ""}
-                  >
-                    {area}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Events Dropdown - No Icon */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1 font-normal">
-                  <span className="text-sm">Events</span>
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-56 bg-white">
-                <DropdownMenuItem asChild>
-                  <Link href="/events/weddings" className="w-full">
-                    Wedding Services
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/events/parties" className="w-full">
-                    Party Planning
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/events/corporate" className="w-full">
-                    Corporate Events
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/events/photoshoots" className="w-full">
-                    Photoshoots
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/events/wellness" className="w-full">
-                    Wellness Retreats
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link href="/hub/provider" className="text-sm hover:text-primary transition-colors font-normal">
+              Provider Dashboard
+            </Link>
 
             <Link href="/explore" className="text-sm hover:text-primary transition-colors font-normal">
               Explore
@@ -253,79 +172,19 @@ export default function SiteHeader() {
         {mobileMenuOpen && (
           <div className="lg:hidden border-t bg-background">
             <div className="mx-auto max-w-7xl px-4 py-4 space-y-4">
-              {/* Location Dropdown */}
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground uppercase">Location</p>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between">
-                      <span>{selectedLocation}</span>
-                      <ChevronDown className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[calc(100vw-2rem)] bg-white">
-                    {BANGKOK_AREAS.map((area) => (
-                      <DropdownMenuItem
-                        key={area}
-                        onClick={() => {
-                          setSelectedLocation(area);
-                          setMobileMenuOpen(false);
-                        }}
-                        className={selectedLocation === area ? "bg-muted" : ""}
-                      >
-                        {area}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              {/* Events Links */}
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground uppercase">Events</p>
-                <div className="space-y-1">
-                  <Link
-                    href="/events/weddings"
-                    className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Wedding Services
-                  </Link>
-                  <Link
-                    href="/events/parties"
-                    className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Party Planning
-                  </Link>
-                  <Link
-                    href="/events/corporate"
-                    className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Corporate Events
-                  </Link>
-                  <Link
-                    href="/events/photoshoots"
-                    className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Photoshoots
-                  </Link>
-                  <Link
-                    href="/events/wellness"
-                    className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Wellness Retreats
-                  </Link>
-                </div>
-              </div>
+              {/* Provider Dashboard */}
+              <Link
+                href="/hub/provider"
+                className="block px-4 py-3 bg-primary text-primary-foreground rounded-lg text-center font-semibold hover:bg-primary/90 transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Provider Dashboard
+              </Link>
 
               {/* Explore */}
               <Link
                 href="/explore"
-                className="block px-4 py-3 bg-primary text-primary-foreground rounded-lg text-center font-semibold hover:bg-primary/90 transition-colors"
+                className="block px-4 py-3 border border-primary text-primary rounded-lg text-center font-semibold hover:bg-primary/10 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Explore Services
