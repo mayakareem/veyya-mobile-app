@@ -413,6 +413,8 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ id: st
         price: service.price,
         duration: service.duration,
         description: service.description,
+        ...(service.category && { category: service.category }),
+        ...(service.subcategory && { subcategory: service.subcategory }),
       });
     }
     router.push("/cart");
