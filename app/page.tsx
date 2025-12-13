@@ -1101,7 +1101,7 @@ export default function HomePage() {
               <Gift className="w-6 h-6 text-muted-foreground" />
               <span className="text-xs text-muted-foreground">Gift</span>
             </Link>
-            <Link href={isAuthenticated ? "/profile" : "/auth/login"} className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
+            <Link href="/profile" className="flex flex-col items-center gap-1 px-3 py-2 min-w-[60px]">
               <User className="w-6 h-6 text-muted-foreground" />
               <span className="text-xs text-muted-foreground">Profile</span>
             </Link>
