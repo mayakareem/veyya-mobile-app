@@ -1002,7 +1002,7 @@ export default function HomePage() {
                   </Link>
 
                   <Link
-                    href="/hub/provider"
+                    href="/providers"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
