@@ -21,6 +21,7 @@ interface CartContextType {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  getTotalDuration: () => number;
   // Legacy aliases
   addItem: (item: Omit<CartItem, "quantity">) => void;
   removeItem: (id: string) => void;
@@ -98,6 +99,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };
 
+  const getTotalDuration = () => {
+    return cart.reduce((sum, item) => sum + item.duration * item.quantity, 0);
+  };
+
   // Legacy aliases for backwards compatibility
   const addItem = addToCart;
   const removeItem = (id: string) => {
@@ -124,6 +129,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         getTotalItems,
         getTotalPrice,
+        getTotalDuration,
         // Legacy aliases
         addItem,
         removeItem,
@@ -155,6 +161,7 @@ export function useCart() {
       clearCart: () => {},
       getTotalItems: () => 0,
       getTotalPrice: () => 0,
+      getTotalDuration: () => 0,
       addItem: () => {},
       removeItem: () => {},
       updateQuantity: () => {},
