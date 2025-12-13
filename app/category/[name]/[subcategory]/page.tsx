@@ -7,7 +7,7 @@ import { SERVICE_CATEGORIES } from "@/lib/constants/categories";
 import { getCategoryById, getSubcategoryById } from "@/lib/constants/services";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, ShoppingCart, Clock } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/lib/cart-context";
 import { toast } from "sonner";
 
 export default function SubcategoryPage({ params }: { params: Promise<{ name: string; subcategory: string }> }) {

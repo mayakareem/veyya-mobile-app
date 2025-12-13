@@ -19,6 +19,7 @@ import {
   Plus,
   Minus,
   ChevronRight,
+  ChevronDown,
   Home,
   CalendarDays,
   Tag,
@@ -443,13 +444,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Browse by Category - Compact */}
+      {/* Browse by Category - Two-Level Navigation */}
       <section className="pb-4">
         <div className="px-4 mb-2">
           <h2 className="text-base font-semibold">Browse by Category</h2>
         </div>
 
-        {/* Category Pills - Always Visible with Selected State */}
+        {/* Category Pills - Click to Expand/Collapse */}
         <div className="px-4 sticky top-[72px] z-10 bg-white pb-3">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
             {SERVICE_CATEGORIES.map((category) => {
@@ -459,17 +460,20 @@ export default function HomePage() {
                 <button
                   key={category.name}
                   onClick={() => {
+                    // Toggle category selection (no navigation)
                     setSelectedCategory(isSelected ? null : category.name);
-                    router.push(`/category/${encodeURIComponent(category.name)}`);
                   }}
-                  className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${
+                  className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border-2 transition-all ${
                     isSelected
-                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/50"
-                      : "bg-white border-border/50 hover:shadow-md"
+                      ? "bg-primary text-white border-primary shadow-lg scale-105"
+                      : "bg-white border-border hover:border-primary/50 hover:shadow-md hover:scale-102"
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className={`w-4 h-4 ${isSelected ? "animate-pulse" : ""}`} />
                   <span className="text-sm font-medium whitespace-nowrap">{category.name}</span>
+                  {isSelected && (
+                    <ChevronDown className="w-4 h-4 ml-1" />
+                  )}
                 </button>
               );
             })}
@@ -478,24 +482,29 @@ export default function HomePage() {
 
         {/* Sub-categories - Shown below when category selected */}
         {selectedCategory && (
-          <div className="px-4 pb-3">
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-              {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
-                <Link
-                  key={sub}
-                  href={`/category/${encodeURIComponent(selectedCategory)}?sub=${encodeURIComponent(sub)}`}
-                >
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-shrink-0 rounded-full text-xs hover:bg-primary/10 hover:border-primary/50"
+          <div className="px-4 pb-3 animate-in slide-in-from-top-2 duration-200">
+            <div className="bg-muted/30 rounded-lg p-3">
+              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2 px-1">
+                {selectedCategory} Services
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
+                  <Link
+                    key={sub}
+                    href={`/category/${encodeURIComponent(selectedCategory)}/${encodeURIComponent(sub)}`}
                   >
-                    {sub}
-                  </Button>
-                </Link>
-              )) || (
-                <p className="text-sm text-muted-foreground">No services available</p>
-              )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-full text-xs bg-white hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm"
+                    >
+                      {sub}
+                    </Button>
+                  </Link>
+                )) || (
+                  <p className="text-sm text-muted-foreground">No services available</p>
+                )}
+              </div>
             </div>
           </div>
         )}
