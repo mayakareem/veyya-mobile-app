@@ -170,19 +170,27 @@ export default function OffersPage() {
       </header>
 
       {/* Tabs */}
-      <div className="sticky top-[72px] z-10 bg-white">
+      <div className="sticky top-[72px] z-10 bg-white border-b">
         <div className="max-w-md mx-auto px-4 py-3">
-          <div className="flex gap-2">
+          <div className="flex gap-2 bg-muted/30 p-1 rounded-full">
             <Button
-              variant={activeTab === "all" ? "default" : "outline"}
-              className="flex-1 rounded-full"
+              variant={activeTab === "all" ? "default" : "ghost"}
+              className={`flex-1 rounded-full transition-all ${
+                activeTab === "all"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "hover:bg-muted/50 text-muted-foreground"
+              }`}
               onClick={() => setActiveTab("all")}
             >
               All Offers ({ACTIVE_OFFERS.length})
             </Button>
             <Button
-              variant={activeTab === "trending" ? "default" : "outline"}
-              className="flex-1 rounded-full"
+              variant={activeTab === "trending" ? "default" : "ghost"}
+              className={`flex-1 rounded-full transition-all ${
+                activeTab === "trending"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "hover:bg-muted/50 text-muted-foreground"
+              }`}
               onClick={() => setActiveTab("trending")}
             >
               <TrendingUp className="w-4 h-4 mr-1" />

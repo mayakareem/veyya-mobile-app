@@ -169,19 +169,27 @@ export default function BookingsPage() {
       </header>
 
       {/* Tabs */}
-      <div className="sticky top-[72px] z-10 bg-white">
+      <div className="sticky top-[72px] z-10 bg-white border-b">
         <div className="max-w-md mx-auto px-4 py-3">
-          <div className="flex gap-2">
+          <div className="flex gap-2 bg-muted/30 p-1 rounded-full">
             <Button
-              variant={activeTab === "upcoming" ? "default" : "outline"}
-              className="flex-1 rounded-full"
+              variant={activeTab === "upcoming" ? "default" : "ghost"}
+              className={`flex-1 rounded-full transition-all ${
+                activeTab === "upcoming"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "hover:bg-muted/50 text-muted-foreground"
+              }`}
               onClick={() => setActiveTab("upcoming")}
             >
               Upcoming ({UPCOMING_BOOKINGS.length})
             </Button>
             <Button
-              variant={activeTab === "past" ? "default" : "outline"}
-              className="flex-1 rounded-full"
+              variant={activeTab === "past" ? "default" : "ghost"}
+              className={`flex-1 rounded-full transition-all ${
+                activeTab === "past"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "hover:bg-muted/50 text-muted-foreground"
+              }`}
               onClick={() => setActiveTab("past")}
             >
               Past ({PAST_BOOKINGS.length})
