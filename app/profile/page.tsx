@@ -120,383 +120,318 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      {/* App Update Banner */}
-      {HAS_UPDATE && (
-        <div className="max-w-md mx-auto px-4 pt-4">
-          <Card className="bg-primary text-white border-0 p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Download className="w-5 h-5" />
-                <div>
-                  <p className="font-semibold text-sm">Update Available</p>
-                  <p className="text-xs opacity-90">Version {LATEST_VERSION} is ready</p>
-                </div>
+      {/* Main Content */}
+      <div className="max-w-md mx-auto px-4 py-3 space-y-3">
+        {/* App Update Banner - Compact */}
+        {HAS_UPDATE && (
+          <div className="bg-primary text-white rounded-lg px-3 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              <div>
+                <p className="font-semibold text-xs">Update Available - v{LATEST_VERSION}</p>
               </div>
-              <Button size="sm" variant="secondary" className="rounded-full">
-                Update
-              </Button>
             </div>
+            <Button size="sm" variant="secondary" className="rounded-full h-7 text-xs px-3">
+              Update
+            </Button>
+          </div>
+        )}
+        {/* Profile Header - Compact */}
+        <Card className="p-3">
+          <div className="flex items-center gap-3">
+            <div className="relative w-16 h-16 flex-shrink-0">
+              {USER_DATA.photo ? (
+                <Image
+                  src={USER_DATA.photo}
+                  alt={USER_DATA.name}
+                  fill
+                  className="rounded-full object-cover ring-2 ring-primary/20"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
+                  <span className="text-2xl font-bold text-primary">
+                    {USER_DATA.name.charAt(0)}
+                  </span>
+                </div>
+              )}
+              <button
+                onClick={handlePhotoUpload}
+                className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
+              >
+                <Camera className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-base font-bold truncate">{USER_DATA.name}</h2>
+              <p className="text-xs text-muted-foreground truncate">{USER_DATA.email}</p>
+              <p className="text-xs text-muted-foreground">{USER_DATA.phone}</p>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full h-8 px-3"
+              onClick={() => router.push("/profile/edit")}
+            >
+              <Edit className="w-3 h-3" />
+            </Button>
+          </div>
+        </Card>
+
+        {/* Stats - Inline Compact */}
+        <div className="flex gap-2">
+          <Card className="flex-1 p-2 text-center">
+            <div className="flex items-center justify-center gap-1">
+              <CalendarDays className="w-3 h-3 text-primary" />
+              <span className="text-lg font-bold text-primary">{USER_DATA.totalBookings}</span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Bookings</p>
+          </Card>
+          <Card className="flex-1 p-2 text-center">
+            <div className="flex items-center justify-center gap-1">
+              <Award className="w-3 h-3 text-primary" />
+              <span className="text-lg font-bold text-primary">{USER_DATA.loyaltyPoints}</span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Points</p>
+          </Card>
+          <Card className="flex-1 p-2 text-center">
+            <div className="flex items-center justify-center gap-1">
+              <Heart className="w-3 h-3 text-primary" />
+              <span className="text-lg font-bold text-primary">{USER_DATA.favorites}</span>
+            </div>
+            <p className="text-[10px] text-muted-foreground">Favorites</p>
           </Card>
         </div>
-      )}
 
-      {/* Main Content */}
-      <div className="max-w-md mx-auto px-4 py-4 space-y-4">
-        {/* Profile Header Card with Photo */}
-        <Card className="p-6 text-center">
-          <div className="relative w-24 h-24 mx-auto mb-4">
-            {USER_DATA.photo ? (
-              <Image
-                src={USER_DATA.photo}
-                alt={USER_DATA.name}
-                fill
-                className="rounded-full object-cover ring-4 ring-primary/20"
-              />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center ring-4 ring-primary/20">
-                <span className="text-3xl font-bold text-primary">
-                  {USER_DATA.name.charAt(0)}
-                </span>
-              </div>
-            )}
-            <button
-              onClick={handlePhotoUpload}
-              className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
-            >
-              <Camera className="w-4 h-4" />
-            </button>
-          </div>
-          <h2 className="text-xl font-bold mb-1">{USER_DATA.name}</h2>
-          <p className="text-sm text-muted-foreground mb-1">{USER_DATA.email}</p>
-          <p className="text-sm text-muted-foreground">{USER_DATA.phone}</p>
-          <Button
-            size="sm"
-            variant="outline"
-            className="mt-4 rounded-full"
-            onClick={() => router.push("/profile/edit")}
+        {/* Account Management - Compact List */}
+        <Card className="divide-y">
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/information")}
           >
-            <Edit className="w-3 h-3 mr-2" />
-            Edit Profile
-          </Button>
-        </Card>
-
-        {/* Stats Card */}
-        <Card className="p-4">
-          <div className="flex items-center justify-around">
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <CalendarDays className="w-4 h-4 text-primary" />
-                <span className="text-2xl font-bold text-primary">{USER_DATA.totalBookings}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Bookings</p>
+            <div className="flex items-center gap-2.5">
+              <UserCircle className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Profile Information</p>
             </div>
-            <div className="w-px h-12 bg-border"></div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Award className="w-4 h-4 text-primary" />
-                <span className="text-2xl font-bold text-primary">{USER_DATA.loyaltyPoints}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Points</p>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/favorites")}
+          >
+            <div className="flex items-center gap-2.5">
+              <Heart className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Favorites</p>
             </div>
-            <div className="w-px h-12 bg-border"></div>
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <Heart className="w-4 h-4 text-primary" />
-                <span className="text-2xl font-bold text-primary">{USER_DATA.favorites}</span>
-              </div>
-              <p className="text-xs text-muted-foreground">Favorites</p>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-[10px] h-4 px-1.5">{USER_DATA.favorites}</Badge>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </div>
           </div>
         </Card>
 
-        {/* Account Management */}
-        <div>
-          <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">
-            Account Management
-          </h3>
-          <div className="space-y-2">
-            {/* Profile Information */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/information")}
-            >
-              <div className="flex items-center gap-3">
-                <UserCircle className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Profile Information</p>
-                  <p className="text-xs text-muted-foreground">Update your name, email, and phone</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-
-            {/* Favorites */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/favorites")}
-            >
-              <div className="flex items-center gap-3">
-                <Heart className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Favorites</p>
-                  <p className="text-xs text-muted-foreground">{USER_DATA.favorites} saved providers & services</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-          </div>
-        </div>
-
-        {/* Saved Addresses */}
+        {/* Saved Addresses - Compact */}
         <Card className="overflow-hidden">
           <div
-            className="p-4 cursor-pointer flex items-center justify-between hover:bg-muted/20 transition-colors"
+            className="px-3 py-2.5 cursor-pointer flex items-center justify-between hover:bg-muted/20 transition-colors"
             onClick={() => setShowAddresses(!showAddresses)}
           >
-            <div className="flex items-center gap-3">
-              <MapPin className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Addresses</p>
-                <p className="text-xs text-muted-foreground">
-                  {USER_DATA.savedAddresses.length} saved addresses
-                </p>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Addresses</p>
             </div>
-            <ChevronRight
-              className={`w-5 h-5 text-muted-foreground transition-transform ${
-                showAddresses ? "rotate-90" : ""
-              }`}
-            />
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-[10px] h-4 px-1.5">{USER_DATA.savedAddresses.length}</Badge>
+              <ChevronRight
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
+                  showAddresses ? "rotate-90" : ""
+                }`}
+              />
+            </div>
           </div>
           {showAddresses && (
-            <div className="border-t border-border/50 bg-muted/5 p-4 space-y-3">
+            <div className="border-t border-border/50 bg-muted/5 p-2 space-y-2">
               {USER_DATA.savedAddresses.map((address) => (
                 <div
                   key={address.id}
-                  className="bg-white rounded-lg p-3 border border-border/50"
+                  className="bg-white rounded-md p-2 border border-border/30"
                 >
                   <div className="flex items-start justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium">{address.type}</p>
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-xs font-medium">{address.type}</p>
                       {address.isDefault && (
-                        <Badge className="text-xs px-1.5 py-0 h-4 bg-green-500">
+                        <Badge className="text-[10px] px-1 py-0 h-3.5 bg-green-500">
                           Default
                         </Badge>
                       )}
                     </div>
-                    <Button size="sm" variant="ghost" className="h-6 text-xs">
+                    <Button size="sm" variant="ghost" className="h-5 text-[10px] px-2">
                       Edit
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-[10px] text-muted-foreground leading-snug">
                     {address.address}
                   </p>
                 </div>
               ))}
-              <Button size="sm" variant="outline" className="w-full rounded-full">
-                + Add New Address
+              <Button size="sm" variant="outline" className="w-full rounded-full h-7 text-xs">
+                + Add Address
               </Button>
             </div>
           )}
         </Card>
 
-        {/* Payment Methods */}
+        {/* Payment Methods - Compact */}
         <Card className="overflow-hidden">
           <div
-            className="p-4 cursor-pointer flex items-center justify-between hover:bg-muted/20 transition-colors"
+            className="px-3 py-2.5 cursor-pointer flex items-center justify-between hover:bg-muted/20 transition-colors"
             onClick={() => setShowPayments(!showPayments)}
           >
-            <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-muted-foreground" />
-              <div>
-                <p className="font-medium">Payment Details</p>
-                <p className="text-xs text-muted-foreground">
-                  {USER_DATA.paymentMethods.length} saved cards
-                </p>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <CreditCard className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Payment Details</p>
             </div>
-            <ChevronRight
-              className={`w-5 h-5 text-muted-foreground transition-transform ${
-                showPayments ? "rotate-90" : ""
-              }`}
-            />
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-[10px] h-4 px-1.5">{USER_DATA.paymentMethods.length}</Badge>
+              <ChevronRight
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
+                  showPayments ? "rotate-90" : ""
+                }`}
+              />
+            </div>
           </div>
           {showPayments && (
-            <div className="border-t border-border/50 bg-muted/5 p-4 space-y-3">
+            <div className="border-t border-border/50 bg-muted/5 p-2 space-y-2">
               {USER_DATA.paymentMethods.map((payment) => (
                 <div
                   key={payment.id}
-                  className="bg-white rounded-lg p-3 border border-border/50"
+                  className="bg-white rounded-md p-2 border border-border/30"
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-xs font-medium">
                         {payment.brand} •••• {payment.last4}
                       </p>
                       {payment.isDefault && (
-                        <Badge className="text-xs px-1.5 py-0 h-4 bg-green-500">
+                        <Badge className="text-[10px] px-1 py-0 h-3.5 bg-green-500">
                           Default
                         </Badge>
                       )}
                     </div>
-                    <Button size="sm" variant="ghost" className="h-6 text-xs">
+                    <Button size="sm" variant="ghost" className="h-5 text-[10px] px-2">
                       Edit
                     </Button>
                   </div>
-                  <p className="text-xs text-muted-foreground">{payment.type}</p>
                 </div>
               ))}
-              <Button size="sm" variant="outline" className="w-full rounded-full">
-                + Add New Card
+              <Button size="sm" variant="outline" className="w-full rounded-full h-7 text-xs">
+                + Add Card
               </Button>
             </div>
           )}
         </Card>
 
-        {/* Gift Card */}
+        {/* Gift Card - Compact */}
         <Card
-          className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
+          className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
           onClick={() => router.push("/profile/gift-card")}
         >
-          <div className="flex items-center gap-3">
-            <GiftIcon className="w-5 h-5 text-muted-foreground" />
-            <div>
-              <p className="font-medium">Gift Card</p>
-              <p className="text-xs text-muted-foreground">Balance: ฿{USER_DATA.giftCardBalance}</p>
-            </div>
+          <div className="flex items-center gap-2.5">
+            <GiftIcon className="w-4 h-4 text-muted-foreground" />
+            <p className="text-sm font-medium">Gift Card</p>
           </div>
-          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="text-[10px] h-4 px-1.5">฿{USER_DATA.giftCardBalance}</Badge>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
         </Card>
 
-        {/* Settings Section */}
-        <div>
-          <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">
-            Settings
-          </h3>
-          <div className="space-y-2">
-            {/* Notifications */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/notifications")}
-            >
-              <div className="flex items-center gap-3">
-                <Bell className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Notifications</p>
-                  <p className="text-xs text-muted-foreground">Manage push & email alerts</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-
-            {/* Password & Security */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/security")}
-            >
-              <div className="flex items-center gap-3">
-                <Lock className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Password & Security</p>
-                  <p className="text-xs text-muted-foreground">Change password & security settings</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-
-            {/* Account Information */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/account-info")}
-            >
-              <div className="flex items-center gap-3">
-                <Info className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Account Information</p>
-                  <p className="text-xs text-muted-foreground">View account details & history</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-
-            {/* General Settings */}
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/profile/settings")}
-            >
-              <div className="flex items-center gap-3">
-                <Settings className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">General Settings</p>
-                  <p className="text-xs text-muted-foreground">Language, region & preferences</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
+        {/* Settings - Compact List */}
+        <Card className="divide-y">
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/notifications")}
+          >
+            <div className="flex items-center gap-2.5">
+              <Bell className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Notifications</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
           </div>
-        </div>
-
-        {/* Help & Support */}
-        <div>
-          <h3 className="text-sm font-semibold text-muted-foreground mb-3 px-1">
-            Help & Support
-          </h3>
-          <div className="space-y-2">
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => window.open("https://line.me/ti/p/~veyya", "_blank")}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <span className="font-medium block">Contact via LINE</span>
-                  <span className="text-xs text-muted-foreground">
-                    Chat with us on LINE
-                  </span>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => window.open("https://wa.me/66123456789", "_blank")}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <span className="font-medium block">Contact via WhatsApp</span>
-                  <span className="text-xs text-muted-foreground">
-                    Message us on WhatsApp
-                  </span>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
-            <Card
-              className="p-4 cursor-pointer hover:shadow-lg transition-shadow flex items-center justify-between"
-              onClick={() => router.push("/help")}
-            >
-              <div className="flex items-center gap-3">
-                <HelpCircle className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Help Center</p>
-                  <p className="text-xs text-muted-foreground">FAQs & support articles</p>
-                </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </Card>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/security")}
+          >
+            <div className="flex items-center gap-2.5">
+              <Lock className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Password & Security</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
           </div>
-        </div>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/account-info")}
+          >
+            <div className="flex items-center gap-2.5">
+              <Info className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Account Information</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/profile/settings")}
+          >
+            <div className="flex items-center gap-2.5">
+              <Settings className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">General Settings</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+        </Card>
 
-        {/* Logout Button */}
+        {/* Help & Support - Compact List */}
+        <Card className="divide-y">
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => window.open("https://line.me/ti/p/~veyya", "_blank")}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                <MessageCircle className="w-3.5 h-3.5 text-white" />
+              </div>
+              <p className="text-sm font-medium">Contact via LINE</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => window.open("https://wa.me/66123456789", "_blank")}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+                <Phone className="w-3.5 h-3.5 text-white" />
+              </div>
+              <p className="text-sm font-medium">Contact via WhatsApp</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <div
+            className="px-3 py-2.5 cursor-pointer hover:bg-muted/20 transition-colors flex items-center justify-between"
+            onClick={() => router.push("/help")}
+          >
+            <div className="flex items-center gap-2.5">
+              <HelpCircle className="w-4 h-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Help Center</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </div>
+        </Card>
+
+        {/* Logout Button - Compact */}
         <Button
           variant="destructive"
           size="lg"
-          className="w-full rounded-full h-12"
+          className="w-full rounded-full h-10"
           onClick={() => {
             // In real app: logout();
             router.push("/");
