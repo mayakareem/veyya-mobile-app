@@ -267,6 +267,55 @@ const PREVIOUS_VENDORS = [
   }
 ];
 
+// Hero Banner Announcements
+const HERO_BANNERS = [
+  {
+    id: 1,
+    title: "New User Special",
+    subtitle: "25% OFF Your First Booking",
+    bgGradient: "from-purple-500 to-pink-500",
+    icon: Gift,
+    link: "/offers",
+    cta: "Claim Offer"
+  },
+  {
+    id: 2,
+    title: "Flash Sale",
+    subtitle: "30% OFF Spa Packages - Today Only!",
+    bgGradient: "from-orange-500 to-red-500",
+    icon: Sparkles,
+    link: "/offers?filter=bundles",
+    cta: "Shop Now"
+  },
+  {
+    id: 3,
+    title: "Holiday Special",
+    subtitle: "Book 3 Services, Get 1 Free",
+    bgGradient: "from-green-500 to-teal-500",
+    icon: Tag,
+    link: "/category/Beauty",
+    cta: "Browse Services"
+  },
+  {
+    id: 4,
+    title: "Refer & Earn",
+    subtitle: "Both Get ฿500 Credit",
+    bgGradient: "from-blue-500 to-indigo-500",
+    icon: Gift,
+    link: "/profile?tab=referrals",
+    cta: "Invite Friends"
+  },
+  {
+    id: 5,
+    title: "New Partnership",
+    subtitle: "Healthcare by Patrangsit Hospital",
+    bgGradient: "from-cyan-500 to-blue-600",
+    icon: Shield,
+    link: "/category/Healthcare",
+    cta: "Explore Services"
+  }
+];
+
 // Top/Trending Services
 const TOP_SERVICES = [
   { id: 1, name: "Deep Tissue Massage", price: 1200, image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&h=200&fit=crop" },
@@ -295,6 +344,7 @@ export default function HomePage() {
   const [selectedVendor, setSelectedVendor] = useState<typeof PREVIOUS_VENDORS[0] | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<{date: string; time: string} | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
   const demoName = getDemoName(user?.name);
   const greeting = getGreeting();
@@ -345,6 +395,15 @@ export default function HomePage() {
     const timeout = setTimeout(type, 500);
     return () => clearTimeout(timeout);
   }, [placeholderIndex]);
+
+  // Auto-scroll hero banner
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerIndex((prev) => (prev + 1) % HERO_BANNERS.length);
+    }, 5000); // Change banner every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // Redirect providers to their hub
@@ -414,6 +473,65 @@ export default function HomePage() {
           </div>
         </div>
       </header>
+
+      {/* Hero Banner - Auto Scrolling */}
+      <section className="bg-white border-b">
+        <div className="max-w-md mx-auto relative overflow-hidden">
+          {/* Banner Carousel */}
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentBannerIndex * 100}%)` }}
+          >
+            {HERO_BANNERS.map((banner) => {
+              const BannerIcon = banner.icon;
+              return (
+                <Link
+                  key={banner.id}
+                  href={banner.link}
+                  className="w-full flex-shrink-0"
+                >
+                  <div className={`bg-gradient-to-r ${banner.bgGradient} text-white px-6 py-4 cursor-pointer hover:opacity-90 transition-opacity`}>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3 flex-1">
+                        <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                          <BannerIcon className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-sm mb-0.5">{banner.title}</h3>
+                          <p className="text-xs text-white/90">{banner.subtitle}</p>
+                        </div>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="flex-shrink-0 text-xs h-8 bg-white/90 hover:bg-white text-gray-900 font-semibold"
+                      >
+                        {banner.cta}
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+            {HERO_BANNERS.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentBannerIndex(index)}
+                className={`transition-all ${
+                  index === currentBannerIndex
+                    ? "w-6 h-1.5 bg-white rounded-full"
+                    : "w-1.5 h-1.5 bg-white/50 rounded-full hover:bg-white/75"
+                }`}
+                aria-label={`Go to banner ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Top Services Section */}
       <section className="pt-4 pb-4">

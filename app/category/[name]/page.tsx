@@ -225,28 +225,30 @@ export default function CategoryPage({ params }: { params: Promise<{ name: strin
             </div>
           )}
 
-          {/* Subcategory Filter Bar */}
-          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex gap-2 min-w-max sm:min-w-0">
-              <Button
-                variant={selectedSubcategory === "all" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedSubcategory("all")}
-                className="flex-shrink-0"
-              >
-                All Services ({allServices.length})
-              </Button>
-              {detailedCategory.subcategories.map((subcategory) => (
+          {/* Subcategory Filter Bar - Sticky */}
+          <div className="sticky top-0 z-10 bg-white pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 shadow-sm">
+            <div className="overflow-x-auto scrollbar-hide pt-3">
+              <div className="flex gap-2 min-w-max sm:min-w-0">
                 <Button
-                  key={subcategory.id}
-                  variant={selectedSubcategory === subcategory.id ? "default" : "outline"}
+                  variant={selectedSubcategory === "all" ? "default" : "outline"}
                   size="sm"
-                  onClick={() => setSelectedSubcategory(subcategory.id)}
+                  onClick={() => setSelectedSubcategory("all")}
                   className="flex-shrink-0"
                 >
-                  {subcategory.name} ({subcategory.services.length})
+                  All Services ({allServices.length})
                 </Button>
-              ))}
+                {detailedCategory.subcategories.map((subcategory) => (
+                  <Button
+                    key={subcategory.id}
+                    variant={selectedSubcategory === subcategory.id ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedSubcategory(subcategory.id)}
+                    className="flex-shrink-0"
+                  >
+                    {subcategory.name} ({subcategory.services.length})
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
 
