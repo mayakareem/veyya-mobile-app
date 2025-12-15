@@ -32,7 +32,8 @@ export const SERVICE_CATEGORIES: Category[] = [
     name: "Massage",
     Icon: HeartPulse,
     description: "Relaxation & therapeutic massage",
-    services: ["Deep Tissue Massage", "Thai Massage", "Swedish Massage", "Hot Stone Massage", "Aromatherapy", "Sports Massage", "Foot Reflexology"]
+    services: ["Deep Tissue Massage", "Thai Massage", "Swedish Massage", "Hot Stone Massage", "Aromatherapy", "Sports Massage", "Foot Reflexology"],
+    subcategories: ["Thai", "Swedish", "Sports", "Deep Tissue", "Stretch Therapy", "Aromatherapy", "Reflexology", "Face Yoga"]
   },
   {
     name: "Home",
