@@ -5,6 +5,7 @@ export type Category = {
   Icon: LucideIcon;
   description: string;
   services: string[];
+  subcategories?: string[];
 };
 
 export type ServiceDetail = {
@@ -24,7 +25,8 @@ export const SERVICE_CATEGORIES: Category[] = [
     name: "Beauty",
     Icon: Sparkles,
     description: "Makeup, nails, facials & more",
-    services: ["Facial Treatment", "Manicure & Pedicure", "Waxing", "Eyebrow Threading", "Eyelash Extensions", "Haircut & Styling", "Hair Color", "Balayage"]
+    services: ["Facial Treatment", "Manicure & Pedicure", "Waxing", "Eyebrow Threading", "Eyelash Extensions", "Haircut & Styling", "Hair Color", "Balayage"],
+    subcategories: ["Hair", "Nails", "Face", "Waxing", "Threading"]
   },
   {
     name: "Massage",
@@ -36,37 +38,43 @@ export const SERVICE_CATEGORIES: Category[] = [
     name: "Home",
     Icon: HomeIcon,
     description: "Cleaning & home services",
-    services: ["House Cleaning", "Deep Cleaning", "Move-in/out Cleaning", "Office Cleaning", "Kitchen Deep Clean", "Window Cleaning", "Carpet Cleaning"]
+    services: ["House Cleaning", "Deep Cleaning", "Move-in/out Cleaning", "Office Cleaning", "Kitchen Deep Clean", "Window Cleaning", "Carpet Cleaning"],
+    subcategories: ["Cleaning", "AC Services", "Handyman", "Appliance", "Pest Control"]
   },
   {
     name: "Wellness",
     Icon: Dumbbell,
     description: "Fitness & mental wellbeing",
-    services: ["Personal Training", "Yoga Class", "Pilates", "Nutrition Consultation", "HIIT Training", "Boxing Training", "Fitness Assessment"]
+    services: ["Personal Training", "Yoga Class", "Pilates", "Nutrition Consultation", "HIIT Training", "Boxing Training", "Fitness Assessment"],
+    subcategories: ["Personal Training", "Yoga", "Boxing", "Pilates"]
   },
   {
     name: "Healthcare",
     Icon: Stethoscope,
     description: "Medical services at home",
-    services: ["Lab Tests", "IV Therapy", "Doctor Consultation", "Flu Vaccine", "Nurse Care", "Physiotherapy", "Psychotherapy & Counselling"]
+    services: ["Lab Tests", "IV Therapy", "Doctor Consultation", "Flu Vaccine", "Nurse Care", "Physiotherapy", "Psychotherapy & Counselling"],
+    subcategories: ["IV Therapy", "Lab Tests", "Vaccines", "Weight Loss", "Medical"]
   },
   {
     name: "Pets",
     Icon: PawPrint,
     description: "Pet grooming & care",
-    services: ["Dog Grooming", "Cat Grooming", "Pet Walking", "Pet Sitting", "Nail Trimming", "Teeth Cleaning"]
+    services: ["Dog Grooming", "Cat Grooming", "Pet Walking", "Pet Sitting", "Nail Trimming", "Teeth Cleaning"],
+    subcategories: ["Grooming", "Walking", "Sitting & Home Visits", "Training"]
   },
   {
     name: "Lifestyle",
     Icon: Scissors,
     description: "Personal styling & coaching",
-    services: ["Personal Styling", "Wardrobe Consultation", "Makeup Lessons", "Life Coaching", "Career Coaching", "Image Consulting"]
+    services: ["Personal Styling", "Wardrobe Consultation", "Makeup Lessons", "Life Coaching", "Career Coaching", "Image Consulting"],
+    subcategories: ["Laundry", "Personal Chef", "Bag Repair", "Shoe Repair", "Personal Assistant", "Babysitting", "Photography", "Videography"]
   },
   {
     name: "Events",
     Icon: PartyPopper,
     description: "Special occasion services",
-    services: ["Bridal Makeup", "Bridal Hair", "Event Planning", "Party Styling", "Photography", "Catering Coordination"]
+    services: ["Bridal Makeup", "Bridal Hair", "Event Planning", "Party Styling", "Photography", "Catering Coordination"],
+    subcategories: ["Wedding", "Engagement Party", "Bachelorettes", "Birthday Parties", "Pre Event"]
   },
 ];
 

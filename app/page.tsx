@@ -568,7 +568,7 @@ export default function HomePage() {
           <h2 className="text-base font-semibold">Browse by Category</h2>
         </div>
 
-        {/* Category Pills - Click to Expand/Collapse */}
+        {/* Category Pills - Click to Expand Subcategories, Double-click to Navigate */}
         <div className="px-4 sticky top-[72px] z-10 bg-white pb-3">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
             {SERVICE_CATEGORIES.map((category) => {
@@ -578,8 +578,14 @@ export default function HomePage() {
                 <button
                   key={category.name}
                   onClick={() => {
-                    // Toggle category selection (no navigation)
-                    setSelectedCategory(isSelected ? null : category.name);
+                    // First click: show subcategories if available
+                    if (isSelected) {
+                      // Second click: navigate to category page
+                      router.push(`/category/${encodeURIComponent(category.name)}`);
+                    } else {
+                      // First click: expand subcategories
+                      setSelectedCategory(category.name);
+                    }
                   }}
                   className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full border-2 transition-all ${
                     isSelected
@@ -598,30 +604,25 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Sub-categories - Shown below when category selected */}
-        {selectedCategory && (
-          <div className="px-4 pb-3 animate-in slide-in-from-top-2 duration-200">
-            <div className="bg-muted/30 rounded-lg p-3">
-              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2 px-1">
-                {selectedCategory} Services
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.services?.map((sub) => (
+        {/* Sub-categories - Scrollable horizontal row below category */}
+        {selectedCategory && SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.subcategories && (
+          <div className="animate-in slide-in-from-top-2 duration-200">
+            <div className="overflow-x-auto scrollbar-hide px-4 pb-3">
+              <div className="flex gap-2 pb-2" style={{ width: 'max-content' }}>
+                {SERVICE_CATEGORIES.find(c => c.name === selectedCategory)?.subcategories?.map((sub) => (
                   <Link
                     key={sub}
-                    href={`/category/${encodeURIComponent(selectedCategory)}/${encodeURIComponent(sub)}`}
+                    href={`/category/${encodeURIComponent(selectedCategory)}?subcategory=${encodeURIComponent(sub)}`}
                   >
                     <Button
                       variant="outline"
                       size="sm"
-                      className="rounded-full text-xs bg-white hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm"
+                      className="flex-shrink-0 rounded-full text-xs bg-white hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm whitespace-nowrap"
                     >
                       {sub}
                     </Button>
                   </Link>
-                )) || (
-                  <p className="text-sm text-muted-foreground">No services available</p>
-                )}
+                ))}
               </div>
             </div>
           </div>
