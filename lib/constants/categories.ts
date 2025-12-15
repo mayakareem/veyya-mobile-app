@@ -26,7 +26,7 @@ export const SERVICE_CATEGORIES: Category[] = [
     Icon: Sparkles,
     description: "Makeup, nails, facials & more",
     services: ["Facial Treatment", "Manicure & Pedicure", "Waxing", "Eyebrow Threading", "Eyelash Extensions", "Haircut & Styling", "Hair Color", "Balayage"],
-    subcategories: ["Hair", "Nails", "Face", "Waxing", "Threading"]
+    subcategories: ["Hair", "Nails", "Brows", "Lashes", "Facial", "Makeup", "Waxing", "Threading"]
   },
   {
     name: "Massage",
